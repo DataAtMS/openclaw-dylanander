@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dylan Ander's OpenClaw. Multi-agent edition.</title>
-<meta name="description" content="The OpenClaw setup for operators running multiple businesses from a phone. Multi-agent. Multi-channel. Iron laws. Cache-boundary memory. Threads as protocol. Free. MIT licensed." />
+<title>Dylan Ander's OpenClaw. For people running multiple companies.</title>
+<meta name="description" content="The OpenClaw setup for people running multiple companies from a phone. Multi-agent. Multi-channel. Iron laws. Cache-boundary memory. Threads as protocol. Free. MIT licensed." />
 <meta property="og:title" content="Dylan Ander's OpenClaw" />
-<meta property="og:description" content="The multi-agent OpenClaw kit for operators running multiple businesses from a phone." />
+<meta property="og:description" content="The multi-agent OpenClaw kit for people running multiple companies from a phone." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://openclaw.dylanander.com" />
 <meta property="og:image" content="https://openclaw.dylanander.com/assets/og.png" />
@@ -76,18 +76,26 @@
 
   /* Hero */
   .hero { padding: 110px 0 90px; border-top: none; }
-  .hero h1 { font-size: 64px; line-height: 1.04; font-weight: 600; letter-spacing: -0.025em; margin: 0 0 32px; max-width: 800px; }
+  .hero h1 { font-size: 64px; line-height: 1.04; font-weight: 600; letter-spacing: -0.025em; margin: 0 0 32px; max-width: 800px; word-wrap: break-word; overflow-wrap: break-word; }
   .hero h1 em { font-style: italic; font-weight: 500; }
   .hero .sub { font-size: 21px; line-height: 1.5; color: var(--mute); max-width: 660px; margin: 0 0 44px; }
-  @media (max-width: 760px) { .hero { padding: 70px 0 60px; } .hero h1 { font-size: 42px; } .hero .sub { font-size: 18px; } h2 { font-size: 30px; } }
+  /* mobile fix 2026-05-17: progressive hero scale-down */
+  @media (max-width: 760px) { .hero { padding: 70px 0 60px; } .hero h1 { font-size: 38px; } .hero .sub { font-size: 17px; } h2 { font-size: 28px; } .wrap { padding: 0 20px; } }
+  @media (max-width: 420px) { .hero h1 { font-size: 32px; } .hero .sub { font-size: 16px; } h2 { font-size: 24px; } .wrap { padding: 0 16px; } section { padding: 60px 0; } }
 
   /* Install box */
   .install { border: 1px solid var(--line-strong); border-radius: 4px; padding: 22px 24px; background: var(--paper-2); max-width: 720px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .install .cmd { font-family: var(--mono); font-size: 14px; color: var(--ink); overflow-x: auto; white-space: nowrap; flex: 1; }
+  .install .cmd { font-family: var(--mono); font-size: 14px; color: var(--ink); overflow-x: auto; white-space: nowrap; flex: 1; min-width: 0; }
   .install .cmd .dim { color: var(--mute); }
   .install button { background: var(--accent); color: #fff; border: 0; padding: 10px 18px; border-radius: 3px; font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; flex-shrink: 0; transition: background 0.15s ease; }
   .install button:hover { background: var(--accent-strong); }
   .install-note { font-size: 14px; color: var(--mute); margin: 18px 0 0; max-width: 660px; line-height: 1.55; }
+  /* mobile fix 2026-05-17: install box pads and shrinks gracefully */
+  @media (max-width: 760px) {
+    .install { padding: 16px 16px; gap: 10px; }
+    .install .cmd { font-size: 12px; }
+    .install button { padding: 8px 12px; font-size: 11px; }
+  }
 
   /* Proof row */
   .proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px; border-top: 1px solid var(--line); }
@@ -107,7 +115,124 @@
   .arch { margin: 40px 0 18px; width: 100%; max-width: 960px; margin-left: auto; margin-right: auto; }
   .arch svg { display: block; width: 100%; height: auto; }
   .arch-caption { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--mute); max-width: 720px; margin: 16px auto 0; text-align: center; letter-spacing: 0.02em; }
+  /* mobile fix 2026-05-17: arch svg horizontal scroll wrapper at very small viewports */
   @media (max-width: 760px) { .arch-caption { text-align: left; font-size: 11px; } }
+  @media (max-width: 480px) {
+    .arch { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .arch svg { min-width: 520px; }
+  }
+
+  /* Comparison table (§02.75) */
+  .compare-wrap { margin-top: 12px; }
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .compare-table thead th {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 14px 12px;
+    background: rgba(20,20,19,0.04);
+    border-bottom: 1px solid var(--line-strong);
+    text-align: center;
+    vertical-align: bottom;
+    line-height: 1.3;
+  }
+  .compare-table thead th.cap { text-align: left; color: var(--mute); }
+  .compare-table thead th.mine {
+    color: var(--ink);
+    font-weight: 700;
+    background: rgba(149,0,255,0.06);
+    border-left: 1px solid var(--accent);
+  }
+  .compare-table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .compare-table tbody td.cap {
+    text-align: left;
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.45;
+    padding-right: 20px;
+    max-width: 320px;
+  }
+  .compare-table tbody td.mine {
+    background: rgba(149,0,255,0.03);
+    border-left: 1px solid var(--accent);
+  }
+  .compare-table tbody tr:last-child td { border-bottom: none; }
+  .compare-table .check { color: var(--accent); font-size: 16px; line-height: 1; }
+  .compare-table .none { color: var(--mute); font-size: 16px; line-height: 1; }
+  .compare-table .partial {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mute);
+    font-weight: 500;
+  }
+  .compare-foot {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mute);
+    margin: 28px 0 0;
+    font-style: italic;
+    max-width: 720px;
+  }
+
+  /* Mobile card-per-row fallback (hidden by default) */
+  .compare-cards { display: none; }
+
+  /* mobile fix 2026-05-17: comparison table collapses to cards below 760px */
+  @media (max-width: 760px) {
+    .compare-table { display: none; }
+    .compare-cards { display: block; }
+    .compare-card {
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 18px 18px 8px;
+      margin: 0 0 14px;
+      background: var(--paper);
+    }
+    .compare-card .cap {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.35;
+      margin: 0 0 14px;
+      color: var(--ink);
+    }
+    .compare-card .grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px 16px;
+      align-items: center;
+    }
+    .compare-card .grid .lbl {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .compare-card .grid .lbl.mine { color: var(--ink); font-weight: 700; }
+    .compare-card .grid .val { text-align: right; font-size: 14px; }
+    .compare-card .grid .val .check { color: var(--accent); }
+    .compare-card .grid .val .none { color: var(--mute); }
+    .compare-card .grid .val .partial {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    .compare-card.mine-card { border-left: 2px solid var(--accent); }
+  }
 
   /* Measurements strip */
   .strip { background: var(--bg-deep); color: #fff; padding: 72px 0; border: none; }
@@ -117,7 +242,9 @@
   .strip .item .v { font-size: 42px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 12px; }
   .strip .item .v .accent { color: var(--accent); }
   .strip .item .d { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; }
-  @media (max-width: 760px) { .strip .grid { grid-template-columns: repeat(2, 1fr); } .strip .item .v { font-size: 32px; } }
+  /* mobile fix 2026-05-17: measurements 4-up → 2x2 → 1col at very small */
+  @media (max-width: 760px) { .strip .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } .strip .item .v { font-size: 32px; } .strip { padding: 56px 0; } .strip .inner { padding: 0 20px; } }
+  @media (max-width: 420px) { .strip .inner { padding: 0 16px; } }
 
   /* Inside list */
   .inside-list { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
@@ -146,17 +273,21 @@
 
   /* Install modes */
   .modes { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
-  .mode { padding: 36px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: start; }
+  /* mobile fix 2026-05-17: min-width:0 on grid child so long .code blocks don't push the column past viewport */
+  .mode { padding: 36px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 36px; align-items: start; }
+  .mode > div { min-width: 0; }
   .mode .label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
   .mode h4 { font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
   .mode p { font-size: 15px; color: var(--mute); margin: 0 0 18px; line-height: 1.6; max-width: 600px; }
-  .mode .code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--line-strong); border-radius: 3px; padding: 14px 16px; overflow-x: auto; white-space: pre; }
-  @media (max-width: 760px) { .mode { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; } }
+  .mode .code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--line-strong); border-radius: 3px; padding: 14px 16px; overflow-x: auto; white-space: pre; max-width: 100%; min-width: 0; }
+  /* mobile fix 2026-05-17: install mode code blocks keep horizontal scroll, never overflow viewport */
+  @media (max-width: 760px) { .mode { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; } .mode .code { font-size: 11px; padding: 12px 14px; } .mode h4 { font-size: 19px; } }
 
   /* FAQ */
+  /* mobile fix 2026-05-17: FAQ summary wraps cleanly */
   details { border-bottom: 1px solid var(--line); padding: 22px 0; }
   details:first-of-type { border-top: 1px solid var(--line); }
-  details summary { font-size: 17px; font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  details summary { font-size: 17px; font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; line-height: 1.4; }
   details summary::-webkit-details-marker { display: none; }
   details summary::after { content: "+"; font-family: var(--mono); color: var(--accent); font-size: 18px; font-weight: 400; transition: transform 0.2s ease; }
   details[open] summary::after { content: "−"; }
@@ -169,9 +300,11 @@
   .final h2 em { font-style: italic; font-weight: 500; }
   .final .lead { font-size: 19px; margin-bottom: 40px; }
   .final-links { margin-top: 28px; font-size: 14px; color: var(--mute); font-family: var(--mono); }
-  .final-links a { color: var(--mute); border-bottom-color: var(--line); margin-right: 22px; }
+  .final-links a { color: var(--mute); border-bottom-color: var(--line); margin-right: 22px; display: inline-block; margin-bottom: 8px; }
   .final-links a:hover { color: var(--ink); }
-  @media (max-width: 760px) { .final { padding: 70px 0; } .final h2 { font-size: 34px; } }
+  /* mobile fix 2026-05-17: final CTA scales + links wrap */
+  @media (max-width: 760px) { .final { padding: 70px 0; } .final h2 { font-size: 30px; } .final .lead { font-size: 17px; } }
+  @media (max-width: 420px) { .final h2 { font-size: 26px; } }
 
   /* Footer */
   footer { border-top: 1px solid var(--line); padding: 36px 0 60px; font-size: 13px; color: var(--mute); font-family: var(--mono); }
@@ -179,6 +312,12 @@
   footer a { color: var(--mute); border-bottom: none; margin-left: 22px; }
   footer a:hover { color: var(--ink); }
   footer .social a { margin-left: 16px; }
+  /* mobile fix 2026-05-17: footer stacks and social links wrap left-aligned */
+  @media (max-width: 600px) {
+    footer .inner { flex-direction: column; align-items: flex-start; }
+    footer .social { display: flex; flex-wrap: wrap; gap: 14px; }
+    footer .social a { margin-left: 0; }
+  }
 </style>
 </head>
 <body>
@@ -206,7 +345,7 @@
 <section class="hero">
   <div class="wrap">
     <p class="eyebrow">DYLANANDER.COM<span class="dot">/</span>OPENCLAW<span class="dot">/</span>MULTI-AGENT KIT<span class="dot">·</span><span class="accent">v1.0</span><span class="dot">·</span>MIT LICENSED</p>
-    <h1>Your OpenClaw agent, <em>sharpened for multi-project operators</em>.</h1>
+    <h1>OpenClaw, <em>for people running multiple companies</em>.</h1>
     <p class="sub">A 2,000-word manual and the architecture for running multiple businesses through OpenClaw from your phone. Free. MIT. Read-only default. Never overwrites your files.</p>
 
     <div class="install">
@@ -228,7 +367,7 @@
 <section id="tax">
   <div class="wrap">
     <p class="section-tag"><span class="accent">§01</span> · The cost of a single-agent setup</p>
-    <h2>Every multi-business operator is paying the agent tax.</h2>
+    <h2>Every founder running multiple businesses is paying the agent tax.</h2>
     <p class="lead">You spun up one agent. It was sharp for one project. The moment you tried to run a second business through it, the same four failure modes showed up. Every single time.</p>
 
     <div class="cards">
@@ -245,7 +384,7 @@
       <div class="card">
         <p class="num">§ The tone tax</p>
         <h3>The voice that works for family is wrong for an audience of 30,000.</h3>
-        <p>Your newsletter persona is dry, sharp, third-person. Your operator persona is short, direct, first-person. Your family persona is warm. One agent collapses all three into one mushy average voice that fits no audience.</p>
+        <p>Your newsletter persona is dry, sharp, third-person. Your work persona is short, direct, first-person. Your family persona is warm. One agent collapses all three into one mushy average voice that fits no audience.</p>
       </div>
       <div class="card">
         <p class="num">§ The drift tax</p>
@@ -261,7 +400,7 @@
   <div class="wrap">
     <p class="section-tag"><span class="accent">§02</span> · What changes after the kit</p>
     <h2>Same OpenClaw runtime. <em>Different org chart.</em></h2>
-    <p class="lead">The kit doesn't replace the underlying model. It gives OpenClaw the multi-agent architecture that distinguishes a useful operator from a flashy assistant.</p>
+    <p class="lead">The kit doesn't replace the underlying model. It gives OpenClaw the multi-agent architecture that distinguishes a real co-founder from a flashy assistant.</p>
 
     <div class="cards">
       <div class="card">
@@ -476,6 +615,181 @@
   </div>
 </section>
 
+<!-- §02.75 COMPARISON TABLE -->
+<section id="comparison">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§02.75</span> · The comparison</p>
+    <h2>Stacked up.</h2>
+    <p class="lead">Hermes ships fast. Nik's Operator Kit hardens the discipline layer. Vanilla OpenClaw is the runtime. This kit is for the person running multiple companies through agents at once. Four products. One honest matrix.</p>
+
+    <div class="compare-wrap">
+      <table class="compare-table" role="table" aria-label="Four-product capability comparison">
+        <thead>
+          <tr>
+            <th class="cap" scope="col">Capability</th>
+            <th scope="col">Hermes<br><span style="font-weight:400;color:var(--mute);text-transform:none;letter-spacing:0;font-size:10px;">Nous Research</span></th>
+            <th scope="col">Vanilla<br>OpenClaw</th>
+            <th scope="col">Nik's<br>Operator Kit</th>
+            <th class="mine" scope="col">Dylan's<br>OpenClaw</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cap">Multi-channel (Telegram, Slack, Discord, Email, CLI)</td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Persistent memory</td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Subagents</td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Sandboxed code execution</td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">MIT license</td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Workspace as source of truth (file-based, grep-able)</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Iron laws as durable contracts (survive context resets)</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Cache-boundary memory architecture</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">partial</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Threads protocol with P0/P1/P2/P3 + SLA enforcement</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Identity-level multi-agent (separate SOUL + MEMORY per agent)</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">partial</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Model-per-agent assignment</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Hybrid task system (workspace + Monday.com mirror)</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Sanitized templates for multi-business setup</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">partial</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Human-authored skills (read-only, forkable)</td>
+            <td><span class="partial">auto-generated</span></td>
+            <td><span class="partial">template</span></td>
+            <td><span class="check">&#x2713;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Migration guide from Hermes</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Hardware-as-product story (Mac mini + Cloudflare tunnel)</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">partial</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Phone-first output formats</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">partial</span></td>
+            <td class="mine"><span class="check">&#x2713;</span></td>
+          </tr>
+          <tr>
+            <td class="cap">Built by a multi-business founder with real workflow</td>
+            <td><span class="none">&ndash;</span></td>
+            <td><span class="partial">n/a</span></td>
+            <td><span class="partial">1 brand</span></td>
+            <td class="mine"><span class="partial" style="color:var(--accent);">4 projects</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- mobile card-per-row fallback -->
+      <div class="compare-cards" aria-hidden="false">
+        <div class="compare-card"><p class="cap">Multi-channel (Telegram, Slack, Discord, Email, CLI)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Persistent memory</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Subagents</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Sandboxed code execution</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">MIT license</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Workspace as source of truth (file-based, grep-able)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Iron laws as durable contracts (survive context resets)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Cache-boundary memory architecture</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Threads protocol with P0/P1/P2/P3 + SLA enforcement</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Identity-level multi-agent (separate SOUL + MEMORY per agent)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Model-per-agent assignment</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Hybrid task system (workspace + Monday.com mirror)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Sanitized templates for multi-business setup</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Human-authored skills (read-only, forkable)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="partial">auto-generated</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">template</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Migration guide from Hermes</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Hardware-as-product story (Mac mini + Cloudflare tunnel)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Phone-first output formats</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Built by a multi-business founder with real workflow</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">n/a</span></span><span class="lbl">Nik's Kit</span><span class="val"><span class="partial">1 brand</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="partial" style="color:var(--accent);">4 projects</span></span></div></div>
+      </div>
+
+      <p class="compare-foot"><em>Hermes is a great product. Nous Research ships serious engineering. The structural differences above are about the architectural bet: emergent agent that grows with you versus declared multi-agent OS that compounds because you wrote down what it should never do.</em></p>
+    </div>
+  </div>
+</section>
+
 <!-- MEASUREMENTS STRIP -->
 <section class="strip">
   <div class="inner">
@@ -483,7 +797,7 @@
       <div class="item">
         <p class="k">Projects</p>
         <p class="v"><span class="accent">4</span></p>
-        <p class="d">Personal, content brand, agency, fund. One operator. One phone. Four identities.</p>
+        <p class="d">Personal, content brand, agency, fund. One person. One phone. Four identities.</p>
       </div>
       <div class="item">
         <p class="k">Identities</p>
@@ -513,7 +827,7 @@
 
     <div class="inside-list">
       <div class="row"><span class="tag">01 · AGENTS.md</span><div><h4>Workspace conventions</h4><p>Session startup order, memory write discipline, red lines, external-vs-internal rules. The contract every agent in the fleet follows every session.</p></div></div>
-      <div class="row"><span class="tag">02 · SOUL.md</span><div><h4>Operator persona</h4><p>Voice, temperament, work ethic, boundaries. One per agent. The content sub-agent has a different SOUL than the main agent. That's the point.</p></div></div>
+      <div class="row"><span class="tag">02 · SOUL.md</span><div><h4>Agent persona</h4><p>Voice, temperament, work ethic, boundaries. One per agent. The content sub-agent has a different SOUL than the main agent. That's the point.</p></div></div>
       <div class="row"><span class="tag">03 · IDENTITY.md</span><div><h4>Who the agent is</h4><p>Name, creature, vibe, emoji, avatar. The agent's metadata as a first-class identity, not a session label.</p></div></div>
       <div class="row"><span class="tag">04 · USER.md</span><div><h4>Who the human is</h4><p>Reference scaffold for who you are, how you work, what you care about, what your agents should never do without asking.</p></div></div>
       <div class="row"><span class="tag">05 · MEMORY.md</span><div><h4>Long-term memory with iron laws</h4><p>🚨 IRON LAW format. Cache-boundary marker. Durable above the line, mutable below. Lean. Under 10,000 characters so semantic search stays sharp.</p></div></div>
@@ -522,7 +836,7 @@
       <div class="row"><span class="tag">08 · threads/</span><div><h4>Threads as protocol</h4><p>P0/P1/P2/P3 priority lanes. 48-business-hour SLA. Business prefixes. Monday.com mirror. The agent reports slippage. You don't chase it.</p></div></div>
       <div class="row"><span class="tag">09 · agents/</span><div><h4>Multi-agent registry</h4><p>Main agent. Content sub-agent. Each with its own channel binding, model selection, and isolation rules. The org chart, in markdown.</p></div></div>
       <div class="row"><span class="tag">10 · memory/</span><div><h4>Daily logs + archive rotation</h4><p>memory/YYYY-MM-DD.md is the raw journal. MEMORY.md is the curated wisdom. Periodic promotion. Bounded growth. Nothing rots.</p></div></div>
-      <div class="row"><span class="tag">11 · journal/</span><div><h4>Bed/wake/feel/day schema</h4><p>The operator's daily journal template. Sleep, energy, what shipped, what slipped. One file per day. Surfaced on demand.</p></div></div>
+      <div class="row"><span class="tag">11 · journal/</span><div><h4>Bed/wake/feel/day schema</h4><p>The founder's daily journal template. Sleep, energy, what shipped, what slipped. One file per day. Surfaced on demand.</p></div></div>
       <div class="row"><span class="tag">12 · skills/</span><div><h4>Custom skill structure</h4><p>The folder where reusable skills live. Each one has a SKILL.md description so the agent picks the right tool for the job.</p></div></div>
       <div class="row"><span class="tag">13 · docs/</span><div><h4>Architecture, migration, multi-business</h4><p>ARCHITECTURE.md (the 10 differences). MIGRATING-FROM-HERMES.md (step-by-step). MULTI-BUSINESS-SETUP.md (the org chart pattern).</p></div></div>
       <div class="row"><span class="tag">+ install.sh</span><div><h4>Safe three-mode installer</h4><p>Default (read-only, drops into <code>dylan-ander-openclaw/</code>). Additive (optional scaffolding). Fresh (new workspaces only). Your files are never silently overwritten.</p></div></div>
@@ -534,7 +848,7 @@
 <section id="differences">
   <div class="wrap">
     <p class="section-tag"><span class="accent">§04</span> · All 10 architectural differences</p>
-    <h2>Every layer of multi-agent operator discipline.</h2>
+    <h2>Every layer of multi-agent discipline.</h2>
     <p class="lead">Workspace as truth. Identities as first-class. Iron laws as contracts. Memory as cache. Threads as protocol. Skills as infrastructure. Heartbeats over cron. One model per agent. Plus the operational glue: gateway, tunnel, dashboard, ACP coding agents.</p>
 
     <div class="diffs">
@@ -558,13 +872,13 @@
   <div class="wrap">
     <p class="section-tag"><span class="accent">§05</span> · Patterns from real work</p>
     <h2>Eight of the iron laws.</h2>
-    <p class="lead">Each one came from a real failure or a real win across four businesses. No theory. No training-doc language. Operator voice throughout.</p>
+    <p class="lead">Each one came from a real failure or a real win across four businesses. No theory. No training-doc language. Founder voice throughout.</p>
 
     <div class="lessons">
       <div class="lesson">
         <p class="tag">§ 01.1 · MEMORY</p>
         <h4>Iron-law formatting</h4>
-        <p>When the operator states a rule, capture it in MEMORY.md under a 🚨 IRON LAW heading with the date and the context that triggered it. Plain paragraphs get skimmed. Iron laws get followed because they're a visual tripwire for your future self.</p>
+        <p>When the human states a rule, capture it in MEMORY.md under a 🚨 IRON LAW heading with the date and the context that triggered it. Plain paragraphs get skimmed. Iron laws get followed because they're a visual tripwire for your future self.</p>
       </div>
       <div class="lesson">
         <p class="tag">§ 02.1 · VOICE</p>
@@ -584,17 +898,17 @@
       <div class="lesson">
         <p class="tag">§ 05.4 · ISOLATION</p>
         <h4>The content agent does not know personal context.</h4>
-        <p>Multi-agent isolation is the feature. The newsletter sub-agent has its own MEMORY.md with editorial guidelines, audience research, brand voice. It does not have access to the operator's family schedule. That separation is a contract, not a setting.</p>
+        <p>Multi-agent isolation is the feature. The newsletter sub-agent has its own MEMORY.md with editorial guidelines, audience research, brand voice. It does not have access to the main agent's family schedule. That separation is a contract, not a setting.</p>
       </div>
       <div class="lesson">
         <p class="tag">§ 06.2 · THREADS</p>
         <h4>SLA is 48 business hours. Weekends pause.</h4>
-        <p>Every P1 and P2 thread gets a 48-business-hour clock. Weekends and holidays freeze it. The agent reports anything aging out of SLA at the start of every Monday. The operator doesn't chase. The agent does.</p>
+        <p>Every P1 and P2 thread gets a 48-business-hour clock. Weekends and holidays freeze it. The agent reports anything aging out of SLA at the start of every Monday. The human doesn't chase. The agent does.</p>
       </div>
       <div class="lesson">
         <p class="tag">§ 07.1 · OUTPUT</p>
         <h4>Phone-first means bullets, not walls.</h4>
-        <p>The operator reads on a phone 80% of the time. Walls of prose get skipped. Lead with the answer. Three to five bullets max. Headers if it runs long. The agent that writes for desktop loses on mobile every time.</p>
+        <p>The human reads on a phone 80% of the time. Walls of prose get skipped. Lead with the answer. Three to five bullets max. Headers if it runs long. The agent that writes for desktop loses on mobile every time.</p>
       </div>
       <div class="lesson">
         <p class="tag">§ 08.3 · HEARTBEATS</p>
@@ -673,7 +987,7 @@ files one pattern at a time.</div>
     </details>
     <details>
       <summary>Does this work without a Mac mini?</summary>
-      <div class="answer">It works on anything that runs OpenClaw, but a Mac mini is strongly recommended for 24/7 operation. The patterns here assume an always-on host that the operator reaches from a phone. Laptop-only setups work but don't get the full heartbeat and threads benefit.</div>
+      <div class="answer">It works on anything that runs OpenClaw, but a Mac mini is strongly recommended for 24/7 operation. The patterns here assume an always-on host that the founder reaches from a phone. Laptop-only setups work but don't get the full heartbeat and threads benefit.</div>
     </details>
     <details>
       <summary>What if I'm currently on Hermes?</summary>
