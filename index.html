@@ -111,6 +111,25 @@
   .card p { font-size: 15px; line-height: 1.6; color: var(--mute); margin: 0; }
   @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
 
+  /* day-zero step list */
+  .day-zero-steps { margin-top: 36px; border-top: 1px solid var(--line); }
+  .dz-step { padding: 32px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 96px 1fr; gap: 24px; align-items: start; }
+  .dz-step .dz-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 4px 0 0; font-weight: 500; }
+  .dz-step h3 { font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 12px; }
+  .dz-step p { font-size: 16px; line-height: 1.6; color: var(--mute); margin: 0 0 16px; max-width: 64ch; }
+  .dz-step p:last-child { margin-bottom: 0; }
+  .dz-step .install { margin: 16px 0; max-width: 100%; align-items: flex-start; }
+  .dz-step .install .cmd { white-space: normal; word-break: break-word; line-height: 1.55; font-size: 13px; padding: 4px 0; }
+  .dz-close { margin-top: 28px; font-size: 15px; color: var(--mute); max-width: 64ch; }
+  .dz-close em { color: var(--ink); font-style: italic; }
+  @media (max-width: 760px) {
+    .dz-step { grid-template-columns: 1fr; gap: 12px; padding: 24px 0; }
+    .dz-step .dz-num { margin-top: 0; }
+    .dz-step h3 { font-size: 19px; }
+    .dz-step .install { flex-direction: column; align-items: stretch; }
+    .dz-step .install button { align-self: flex-start; }
+  }
+
   /* Architecture diagram */
   .arch { margin: 40px 0 18px; width: 100%; max-width: 960px; margin-left: auto; margin-right: auto; }
   .arch svg { display: block; width: 100%; height: auto; }
@@ -329,7 +348,7 @@
       <span class="author">Dylan Ander</span><span class="sep">·</span><span class="kit">OpenClaw</span>
     </div>
     <nav class="nav">
-      <a href="#tax" class="hide-sm">cost</a>
+      <a href="#day-zero" class="hide-sm">day zero</a>
       <a href="#after" class="hide-sm">fix</a>
       <a href="#inside">inside</a>
       <a href="#patterns" class="hide-sm">patterns</a>
@@ -364,43 +383,66 @@
 </section>
 
 <!-- §01 THE TAX -->
-<section id="tax">
+<section id="day-zero">
   <div class="wrap">
-    <p class="section-tag"><span class="accent">§01</span> · The cost of a single-agent setup</p>
-    <h2>If you have too much going on, you're already paying the agent tax.</h2>
-    <p class="lead">You spun up one agent. It was sharp for one project. The moment you tried to run a second business through it, the same four failure modes showed up. Every single time.</p>
+    <p class="section-tag"><span class="accent">§01</span> · Day zero, done right</p>
+    <h2>Fill the files before you start.</h2>
+    <p class="lead">Most people install a kit, hit a blank MEMORY.md and TOOLS.md, and quit by day three. The fix is simple. Feed your agent your context before the first session, not during it. The trick I used: I asked every AI I already use to hand me back everything they know about me.</p>
 
-    <div class="cards">
-      <div class="card">
-        <p class="num">§ The context tax</p>
-        <h3>One agent forces you to reload entire worldviews every project switch.</h3>
-        <p>Personal life, three companies, a newsletter, a fund. Same context window. The agent that just wrote your wife a birthday note is now drafting a board update. It is the wrong model in the wrong voice with the wrong memory.</p>
+    <div class="day-zero-steps">
+      <div class="dz-step">
+        <p class="dz-num">01</p>
+        <h3>Open every AI you actually use.</h3>
+        <p>Claude. Gemini. ChatGPT. Perplexity. Grok. Wherever you've talked to an AI for hours. Each of these tools already holds years of context on how you work, what you build, what you sound like.</p>
       </div>
-      <div class="card">
-        <p class="num">§ The memory tax</p>
-        <h3>One memory bucket. Everything shares the same retrieval surface.</h3>
-        <p>Your kid's school schedule and a client billing dispute sit in the same semantic search index. When you ask "what is happening this week," both surface. Neither is right. Privacy and signal both collapse.</p>
+
+      <div class="dz-step">
+        <p class="dz-num">02</p>
+        <h3>Send each of them the same prompt.</h3>
+        <p>Copy this verbatim into Claude. Then Gemini. Then ChatGPT. Then anything else.</p>
+        <div class="install">
+          <div class="cmd" id="dz-prompt">I am setting up a new OpenClaw instance. Export everything you know about me from our chat history that would help an autonomous agent operate on my behalf. Format as plain markdown. Include preferences, ongoing projects, communication style, important people, decisions, ways of working, anything I have shared that an agent would benefit from knowing on day one. Be thorough. Do not summarize. Give me the raw context dump in copy-pasteable markdown. Then point me to the official OpenClaw install guides.</div>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-prompt').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        </div>
       </div>
-      <div class="card">
-        <p class="num">§ The tone tax</p>
-        <h3>The voice that works for family is wrong for an audience of 30,000.</h3>
-        <p>Your newsletter persona is dry, sharp, third-person. Your work persona is short, direct, first-person. Your family persona is warm. One agent collapses all three into one mushy average voice that fits no audience.</p>
+
+      <div class="dz-step">
+        <p class="dz-num">03</p>
+        <h3>Save each export as its own file.</h3>
+        <p>Inside your OpenClaw workspace, create an <code>imports/</code> folder and drop the markdown exports as <code>imports/claude.md</code>, <code>imports/gemini.md</code>, <code>imports/chatgpt.md</code>, one per AI. Raw, untouched. The agent does the rest.</p>
       </div>
-      <div class="card">
-        <p class="num">§ The drift tax</p>
-        <h3>"Self-optimizing prompts" is a feature pitched as adaptation.</h3>
-        <p>It is behavior you can't control over time. The thing you trained on Monday quietly mutates by Friday. You stop trusting what the agent will do next. You start checking every output. That is not leverage. That is a junior employee with amnesia.</p>
+
+      <div class="dz-step">
+        <p class="dz-num">04</p>
+        <h3>Install the kit.</h3>
+        <div class="install">
+          <div class="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -sSL https://openclaw.dylanander.com/install.sh | bash'); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        </div>
+        <p>The kit drops the architecture, the iron-law format, the threads protocol, the multi-agent registry, the wired-tools catalog. The shape of your brain is now in place.</p>
+      </div>
+
+      <div class="dz-step">
+        <p class="dz-num">05</p>
+        <h3>First message to the agent.</h3>
+        <div class="install">
+          <div class="cmd" id="dz-firstmsg">Read everything in /imports. Do not change the kit's architecture. Use what's useful from those exports to fill in MEMORY.md, USER.md, IDENTITY.md, and the relevant TOOLS.md sections. Tell me what you learned, what's worth promoting to long-term memory, and what you ignored.</div>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-firstmsg').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        </div>
+        <p>Now your agent walks into day one with context, voice, and stakes. Not a blank file and a confused first session.</p>
       </div>
     </div>
+
+    <p class="dz-close"><em>The blank file is the killer. Fill it before you sit down.</em> Works whether this is your first OpenClaw or your tenth. People refreshing an old setup get the same hour-three head start.</p>
   </div>
 </section>
 
 <!-- §02 THE FIX -->
 <section id="after">
   <div class="wrap">
-    <p class="section-tag"><span class="accent">§02</span> · What changes after the kit</p>
-    <h2>Same OpenClaw runtime. <em>Different org chart.</em></h2>
-    <p class="lead">The kit doesn't replace the underlying model. It gives OpenClaw the multi-agent architecture that distinguishes a real partner-in-the-work from a flashy assistant.</p>
+    <p class="section-tag"><span class="accent">§02</span> · What you actually get</p>
+    <h2>Once the files are full, the kit does this.</h2>
+    <p class="lead">Day zero gave the agent your context. The kit gives the agent its architecture. Four things that compound from message one, the kind of structure no amount of context dumping can give you on its own.</p>
 
     <div class="cards">
       <div class="card">
