@@ -864,8 +864,8 @@
 <section id="inside">
   <div class="wrap">
     <p class="section-tag"><span class="accent">§03</span> · What's inside</p>
-    <h2>A manual, eight templates, two reference docs, one installer.</h2>
-    <p class="lead">Everything is reference material. You read it, see what patterns your current setup is missing, adopt what fits. The kit never rewrites your existing identity files.</p>
+    <h2>Eight templates. Three docs. Nik's full kit. One installer.</h2>
+    <p class="lead">Everything is reference material. You read it, see what patterns your current setup is missing, adopt what fits. The kit never rewrites your existing identity files. Nik Sharma's Operator Kit ships bundled (MIT, with attribution) because that's the discipline layer underneath this one and you should have both.</p>
 
     <div class="inside-list">
       <div class="row"><span class="tag">01 · AGENTS.md</span><div><h4>Workspace conventions</h4><p>Session startup order, memory write discipline, red lines, external-vs-internal rules. The contract every agent in the fleet follows every session.</p></div></div>
@@ -878,9 +878,10 @@
       <div class="row"><span class="tag">08 · threads/</span><div><h4>Threads as protocol</h4><p>P0/P1/P2/P3 priority lanes. 48-business-hour SLA. Business prefixes. Monday.com mirror. The agent reports slippage. You don't chase it.</p></div></div>
       <div class="row"><span class="tag">09 · agents/</span><div><h4>Multi-agent registry</h4><p>Main agent. Content sub-agent. Each with its own channel binding, model selection, and isolation rules. The org chart, in markdown.</p></div></div>
       <div class="row"><span class="tag">10 · memory/</span><div><h4>Daily logs + archive rotation</h4><p>memory/YYYY-MM-DD.md is the raw journal. MEMORY.md is the curated wisdom. Periodic promotion. Bounded growth. Nothing rots.</p></div></div>
-      <div class="row"><span class="tag">11 · journal/</span><div><h4>Bed/wake/feel/day schema</h4><p>The founder's daily journal template. Sleep, energy, what shipped, what slipped. One file per day. Surfaced on demand.</p></div></div>
+      <div class="row"><span class="tag">11 · journal/</span><div><h4>Bed/wake/feel/day schema</h4><p>Your daily journal template. Sleep, energy, what shipped, what slipped. One file per day. Surfaced on demand.</p></div></div>
       <div class="row"><span class="tag">12 · skills/</span><div><h4>Custom skill structure</h4><p>The folder where reusable skills live. Each one has a SKILL.md description so the agent picks the right tool for the job.</p></div></div>
       <div class="row"><span class="tag">13 · docs/</span><div><h4>Architecture, migration, multi-business</h4><p>ARCHITECTURE.md (the 10 differences). MIGRATING-FROM-HERMES.md (step-by-step). MULTI-BUSINESS-SETUP.md (the org chart pattern).</p></div></div>
+      <div class="row"><span class="tag">14 · nik/</span><div><h4>Nik Sharma's Operator Kit (bundled with attribution)</h4><p>MANUAL.md (3,000 words, his philosophy layer). LIFE-SKILLS.md (15,652 words, 322 lessons across 25 categories, fingerprint-stripped). Both MIT. Canonical home: <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a>. Read these first. Nik started this whole thing.</p></div></div>
       <div class="row"><span class="tag">+ install.sh</span><div><h4>Safe three-mode installer</h4><p>Default (read-only, drops into <code>dylan-ander-openclaw/</code>). Additive (optional scaffolding). Fresh (new workspaces only). Your files are never silently overwritten.</p></div></div>
     </div>
   </div>
@@ -1024,12 +1025,12 @@ files one pattern at a time.</div>
       <div class="answer">Strongly recommended. The kit assumes OpenClaw is installed at <code>~/.openclaw/workspace/</code>. If you don't have it, install OpenClaw first at <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">github.com/openclaw/openclaw</a>, then come back.</div>
     </details>
     <details>
-      <summary>Can I use Nik Sharma's Operator Kit and this together?</summary>
-      <div class="answer">Yes. Stack them. Nik's kit at <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a> is the single-agent discipline layer. This kit is the multi-agent org chart and SLA system on top of it. Read both. Pick the patterns that fit. The two are designed to compose.</div>
+      <summary>Is Nik Sharma's Operator Kit included?</summary>
+      <div class="answer">Yes. Nik's MANUAL.md and LIFE-SKILLS.md ship bundled in the <code>nik/</code> folder, MIT-licensed and attributed. His kit is the single-agent discipline layer underneath. This kit is the multi-agent layer on top. You get both in one install. For the always-latest version of Nik's files, the canonical home is <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a>.</div>
     </details>
     <details>
       <summary>Does this work without a Mac mini?</summary>
-      <div class="answer">It works on anything that runs OpenClaw, but a Mac mini is strongly recommended for 24/7 operation. The patterns here assume an always-on host that the founder reaches from a phone. Laptop-only setups work but don't get the full heartbeat and threads benefit.</div>
+      <div class="answer">It works on anything that runs OpenClaw, but a Mac mini is strongly recommended for 24/7 operation. The patterns here assume an always-on host you reach from a phone. Laptop-only setups work but don't get the full heartbeat and threads benefit.</div>
     </details>
     <details>
       <summary>What if I'm currently on Hermes?</summary>
@@ -1053,7 +1054,7 @@ files one pattern at a time.</div>
     </details>
     <details>
       <summary>Who made this?</summary>
-      <div class="answer">Curated by Dylan Ander. Distilled from the actual multi-agent OpenClaw setup running across four businesses (Heatmap, Mentionstack, Dylan Ander personal brand, Billion Dollar Websites). Modeled on the install pattern Nik Sharma shipped at <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a>. Different content, same safety-first philosophy.</div>
+      <div class="answer">Curated by Dylan Ander. Distilled from a real multi-agent OpenClaw setup running multiple projects in parallel. Built on top of the foundation Nik Sharma shipped at <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a>. His Operator Kit started this one. Different layer, same safety-first philosophy.</div>
     </details>
   </div>
 </section>

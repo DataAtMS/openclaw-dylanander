@@ -90,6 +90,11 @@ CORE_FILES=(
   "/docs/MIGRATING-FROM-HERMES.md|docs/MIGRATING-FROM-HERMES.md"
   "/docs/MULTI-BUSINESS-SETUP.md|docs/MULTI-BUSINESS-SETUP.md"
   "/README.md|README.md"
+  # Nik Sharma's Operator Kit, bundled with attribution. MIT licensed.
+  # Canonical home: https://openclaw.nik.co
+  "/nik/README.md|nik/README.md"
+  "/nik/MANUAL.md|nik/MANUAL.md"
+  "/nik/LIFE-SKILLS.md|nik/LIFE-SKILLS.md"
 )
 
 case "$MODE" in
