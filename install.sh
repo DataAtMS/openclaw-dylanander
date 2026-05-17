@@ -133,7 +133,7 @@ Next step. tell your agent:
   MEMORY.md one pattern at a time. Do not rewrite what we have. Only suggest
   incremental improvements with my approval.
 
-Repo:  https://github.com/dylanander/dylan-ander-openclaw
+Repo:  https://github.com/DataAtMS/openclaw-dylanander
 Docs:  https://openclaw.dylanander.com
 EOF
     ;;
@@ -173,7 +173,7 @@ What was created:
 
 Nothing at the workspace root was modified.
 
-Repo:  https://github.com/dylanander/dylan-ander-openclaw
+Repo:  https://github.com/DataAtMS/openclaw-dylanander
 Docs:  https://openclaw.dylanander.com
 EOF
     ;;
@@ -234,7 +234,7 @@ Fresh install complete.
 Next step. open ${DEST}/docs/ARCHITECTURE.md and read it end to end.
 That document is the contract. Everything else is downstream of it.
 
-Repo:  https://github.com/dylanander/dylan-ander-openclaw
+Repo:  https://github.com/DataAtMS/openclaw-dylanander
 Docs:  https://openclaw.dylanander.com
 EOF
     ;;
