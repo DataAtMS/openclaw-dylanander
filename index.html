@@ -9,6 +9,9 @@
 <meta property="og:description" content="The multi-agent OpenClaw kit for operators running multiple businesses from a phone." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://openclaw.dylanander.com" />
+<meta property="og:image" content="https://openclaw.dylanander.com/assets/og.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://openclaw.dylanander.com/assets/og.png" />
 <link rel="icon" href="https://cdn.prod.website-files.com/6973c245250533328d52b954/6977ac71723e15c4d5759a6a_DylanAnder-Favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,6 +102,12 @@
   .card h3 { font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 14px; }
   .card p { font-size: 15px; line-height: 1.6; color: var(--mute); margin: 0; }
   @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
+
+  /* Architecture diagram */
+  .arch { margin: 40px 0 18px; width: 100%; max-width: 960px; margin-left: auto; margin-right: auto; }
+  .arch svg { display: block; width: 100%; height: auto; }
+  .arch-caption { font-family: var(--mono); font-size: 12px; line-height: 1.6; color: var(--mute); max-width: 720px; margin: 16px auto 0; text-align: center; letter-spacing: 0.02em; }
+  @media (max-width: 760px) { .arch-caption { text-align: left; font-size: 11px; } }
 
   /* Measurements strip */
   .strip { background: var(--bg-deep); color: #fff; padding: 72px 0; border: none; }
@@ -276,6 +285,194 @@
         <p>48-business-hour SLA. Weekend pauses. Business prefixes on every thread. Monday.com mirror. You don't chase your own task list. The agent reports what slipped and what's next, on a schedule you control.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- §02.5 ARCHITECTURE DIAGRAM -->
+<section id="architecture">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§02.5</span> · The architecture</p>
+    <h2>How it runs.</h2>
+    <p class="lead"><em>One Mac mini. One phone. Multiple agents. File-based brain. Real channels. Real tools. The diagram below is the actual shape of what's running on the box under my desk while I work from my phone.</em></p>
+
+    <div class="arch">
+      <svg viewBox="0 0 960 880" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="OpenClaw multi-agent architecture diagram">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#9500ff" />
+          </marker>
+          <marker id="arrow-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#141413" fill-opacity="0.55" />
+          </marker>
+          <style>
+            .lbl { font-family: "Geist", -apple-system, sans-serif; font-size: 13px; fill: #141413; font-weight: 500; }
+            .lbl-sm { font-family: "Geist", -apple-system, sans-serif; font-size: 11px; fill: rgba(20,20,19,0.55); font-weight: 400; }
+            .lbl-tag { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; fill: rgba(20,20,19,0.55); letter-spacing: 0.04em; }
+            .lbl-title { font-family: "Geist", -apple-system, sans-serif; font-size: 14px; fill: #141413; font-weight: 600; }
+            .lbl-accent { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; fill: #9500ff; letter-spacing: 0.06em; font-weight: 500; }
+            .lbl-port { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; fill: #9500ff; font-weight: 500; }
+            .lbl-side { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; fill: rgba(20,20,19,0.55); letter-spacing: 0.04em; }
+            .lbl-side-strong { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; fill: #141413; font-weight: 500; letter-spacing: 0.04em; }
+            .lbl-boundary { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px; fill: #9500ff; letter-spacing: 0.1em; font-weight: 500; }
+            .box { fill: none; stroke: #141413; stroke-opacity: 0.25; stroke-width: 1; }
+            .box-fill { fill: #ffffff; fill-opacity: 0.35; stroke: #141413; stroke-opacity: 0.25; stroke-width: 1; }
+            .box-workspace { fill: none; stroke: #141413; stroke-opacity: 0.35; stroke-width: 1.25; }
+            .line { stroke: #9500ff; stroke-width: 1.5; fill: none; }
+            .line-ink { stroke: #141413; stroke-opacity: 0.55; stroke-width: 1; fill: none; }
+            .line-boundary { stroke: #9500ff; stroke-width: 1.25; stroke-dasharray: 6 4; fill: none; }
+            .side-bar { fill: none; stroke: #141413; stroke-opacity: 0.2; stroke-width: 1; stroke-dasharray: 3 3; }
+          </style>
+        </defs>
+
+        <!-- LAYER 1: PHONE / COCKPIT -->
+        <g>
+          <rect x="410" y="22" width="140" height="54" rx="4" class="box-fill" />
+          <text x="480" y="46" text-anchor="middle" class="lbl-title">Your phone</text>
+          <text x="480" y="64" text-anchor="middle" class="lbl-sm">Telegram · Signal · iMessage</text>
+          <text x="480" y="94" text-anchor="middle" class="lbl-tag">THE COCKPIT</text>
+        </g>
+
+        <!-- arrow phone -> cloudflare -->
+        <line x1="480" y1="104" x2="480" y2="138" class="line" marker-end="url(#arrow)" />
+
+        <!-- LAYER 2: CLOUDFLARE TUNNEL -->
+        <g>
+          <rect x="330" y="146" width="300" height="50" rx="4" class="box-fill" />
+          <text x="480" y="170" text-anchor="middle" class="lbl-title">Cloudflare Tunnel</text>
+          <text x="480" y="186" text-anchor="middle" class="lbl-sm">public access, encrypted</text>
+        </g>
+
+        <!-- arrow tunnel -> gateway -->
+        <line x1="480" y1="196" x2="480" y2="230" class="line" marker-end="url(#arrow)" />
+
+        <!-- LAYER 3: GATEWAY -->
+        <g>
+          <rect x="260" y="238" width="440" height="62" rx="4" class="box-fill" />
+          <text x="480" y="262" text-anchor="middle" class="lbl-title">OpenClaw Gateway</text>
+          <text x="480" y="278" text-anchor="middle" class="lbl-port">port 18789</text>
+          <text x="480" y="294" text-anchor="middle" class="lbl-sm">auth · channel routing · multi-agent broker</text>
+        </g>
+
+        <!-- arrows gateway -> agents (4 fan-out) -->
+        <line x1="480" y1="300" x2="480" y2="320" class="line-ink" />
+        <line x1="125" y1="320" x2="835" y2="320" class="line-ink" />
+        <line x1="125" y1="320" x2="125" y2="346" class="line-ink" marker-end="url(#arrow-ink)" />
+        <line x1="362" y1="320" x2="362" y2="346" class="line-ink" marker-end="url(#arrow-ink)" />
+        <line x1="598" y1="320" x2="598" y2="346" class="line-ink" marker-end="url(#arrow-ink)" />
+        <line x1="835" y1="320" x2="835" y2="346" class="line-ink" marker-end="url(#arrow-ink)" />
+
+        <!-- LAYER 4: MULTI-AGENT FAN-OUT (4 columns) -->
+        <g>
+          <!-- main (Jetson) -->
+          <rect x="45" y="350" width="160" height="66" rx="4" class="box-fill" />
+          <text x="125" y="374" text-anchor="middle" class="lbl-title">main · Jetson</text>
+          <text x="125" y="394" text-anchor="middle" class="lbl-sm">Opus 4.7</text>
+          <text x="125" y="408" text-anchor="middle" class="lbl-tag">PRINCIPAL</text>
+
+          <!-- da-content -->
+          <rect x="282" y="350" width="160" height="66" rx="4" class="box-fill" />
+          <text x="362" y="374" text-anchor="middle" class="lbl-title">da-content</text>
+          <text x="362" y="394" text-anchor="middle" class="lbl-sm">Sonnet</text>
+          <text x="362" y="408" text-anchor="middle" class="lbl-tag">NEWSLETTER</text>
+
+          <!-- jellybee_bot -->
+          <rect x="518" y="350" width="160" height="66" rx="4" class="box-fill" />
+          <text x="598" y="374" text-anchor="middle" class="lbl-title">@jellybee_bot</text>
+          <text x="598" y="394" text-anchor="middle" class="lbl-sm">Sonnet 4.6</text>
+          <text x="598" y="408" text-anchor="middle" class="lbl-tag">CLIENT FACING</text>
+
+          <!-- coding agents ACP -->
+          <rect x="755" y="350" width="160" height="66" rx="4" class="box-fill" />
+          <text x="835" y="374" text-anchor="middle" class="lbl-title">Coding agents</text>
+          <text x="835" y="390" text-anchor="middle" class="lbl-sm">ACP</text>
+          <text x="835" y="406" text-anchor="middle" class="lbl-tag">CC · CURSOR · CODEX</text>
+        </g>
+
+        <!-- arrows agents -> workspace -->
+        <line x1="125" y1="418" x2="125" y2="446" class="line" marker-end="url(#arrow)" />
+        <line x1="362" y1="418" x2="362" y2="446" class="line" marker-end="url(#arrow)" />
+        <line x1="598" y1="418" x2="598" y2="446" class="line" marker-end="url(#arrow)" />
+        <line x1="835" y1="418" x2="835" y2="446" class="line" marker-end="url(#arrow)" />
+
+        <!-- LAYER 5: SHARED WORKSPACE (the heart) -->
+        <g>
+          <rect x="45" y="452" width="870" height="190" rx="6" class="box-workspace" />
+          <text x="68" y="478" class="lbl-tag">WORKSPACE · FILE-BASED · YOU OWN THIS</text>
+
+          <!-- above the boundary: cached, stable -->
+          <text x="480" y="510" text-anchor="middle" class="lbl-title">MEMORY.md (iron laws)  ·  AGENTS.md  ·  SOUL.md  ·  TOOLS.md</text>
+          <text x="480" y="528" text-anchor="middle" class="lbl-sm">cached · stable · token-efficient</text>
+
+          <!-- CACHE BOUNDARY dashed line -->
+          <line x1="75" y1="552" x2="885" y2="552" class="line-boundary" />
+          <rect x="395" y="542" width="170" height="20" fill="#faf8f4" />
+          <text x="480" y="557" text-anchor="middle" class="lbl-boundary">CACHE BOUNDARY</text>
+
+          <!-- below the boundary: mutable -->
+          <text x="480" y="590" text-anchor="middle" class="lbl-title">threads/  ·  memory/YYYY-MM-DD.md  ·  journal/</text>
+          <text x="480" y="608" text-anchor="middle" class="lbl-sm">mutable · refreshed per turn</text>
+        </g>
+
+        <!-- arrow workspace -> channels/tools -->
+        <line x1="480" y1="642" x2="480" y2="674" class="line" marker-end="url(#arrow)" />
+
+        <!-- LAYER 6: CHANNELS + TOOLS (2 rows of chips) -->
+        <g>
+          <!-- Row 1: channels -->
+          <text x="45" y="690" class="lbl-tag">CHANNELS</text>
+          <g class="chips-channels">
+            <rect x="45" y="700" width="100" height="32" rx="3" class="box-fill" />
+            <text x="95" y="720" text-anchor="middle" class="lbl">Telegram</text>
+            <rect x="161" y="700" width="100" height="32" rx="3" class="box-fill" />
+            <text x="211" y="720" text-anchor="middle" class="lbl">Slack</text>
+            <rect x="277" y="700" width="100" height="32" rx="3" class="box-fill" />
+            <text x="327" y="720" text-anchor="middle" class="lbl">Discord</text>
+            <rect x="393" y="700" width="100" height="32" rx="3" class="box-fill" />
+            <text x="443" y="720" text-anchor="middle" class="lbl">iMessage</text>
+            <rect x="509" y="700" width="100" height="32" rx="3" class="box-fill" />
+            <text x="559" y="720" text-anchor="middle" class="lbl">Email</text>
+          </g>
+
+          <!-- Row 2: tools -->
+          <text x="45" y="758" class="lbl-tag">TOOLS</text>
+          <g class="chips-tools">
+            <rect x="45" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="93" y="788" text-anchor="middle" class="lbl">GA4</text>
+            <rect x="157" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="205" y="788" text-anchor="middle" class="lbl">Klaviyo</text>
+            <rect x="269" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="317" y="788" text-anchor="middle" class="lbl">Beehiiv</text>
+            <rect x="381" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="429" y="788" text-anchor="middle" class="lbl">Monday</text>
+            <rect x="493" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="541" y="788" text-anchor="middle" class="lbl">Shopify</text>
+            <rect x="605" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="653" y="788" text-anchor="middle" class="lbl">Stripe</text>
+            <rect x="717" y="768" width="96" height="32" rx="3" class="box-fill" />
+            <text x="765" y="788" text-anchor="middle" class="lbl">GitHub</text>
+            <rect x="829" y="768" width="86" height="32" rx="3" class="box-fill" />
+            <text x="872" y="788" text-anchor="middle" class="lbl">Vercel</text>
+          </g>
+        </g>
+
+        <!-- SIDE ANNOTATION: Mac mini brain (right rail) -->
+        <g>
+          <line x1="640" y1="700" x2="640" y2="800" class="side-bar" />
+          <text x="655" y="690" class="lbl-side-strong">Mac mini · 24/7 brain</text>
+          <text x="655" y="706" class="lbl-side">local hardware</text>
+          <text x="655" y="720" class="lbl-side">not someone else's cloud</text>
+        </g>
+
+        <!-- Right-side rail label for the whole stack -->
+        <g>
+          <text x="930" y="260" text-anchor="end" class="lbl-accent">PUBLIC SURFACE</text>
+          <text x="930" y="408" text-anchor="end" class="lbl-accent">AGENT FAN-OUT</text>
+          <text x="930" y="478" text-anchor="end" class="lbl-accent">SHARED MEMORY</text>
+        </g>
+      </svg>
+    </div>
+
+    <p class="arch-caption">Each agent has its own identity, model, channel binding, and memory namespace. The workspace is shared, with the cache boundary protecting durable behavior from session noise.</p>
   </div>
 </section>
 
