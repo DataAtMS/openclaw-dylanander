@@ -3,428 +3,540 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dylan Ander's OpenClaw: the multi-agent OS for running companies from your phone</title>
-<meta name="description" content="The operator-at-scale OpenClaw kit. Multi-agent. Multi-business. Multi-channel. Iron laws. Threads as protocol. Free. MIT licensed." />
+<title>Dylan Ander's OpenClaw. Multi-agent edition.</title>
+<meta name="description" content="The OpenClaw setup for operators running multiple businesses from a phone. Multi-agent. Multi-channel. Iron laws. Cache-boundary memory. Threads as protocol. Free. MIT licensed." />
 <meta property="og:title" content="Dylan Ander's OpenClaw" />
-<meta property="og:description" content="Watch me build companies from my phone. The OpenClaw kit that runs them." />
+<meta property="og:description" content="The multi-agent OpenClaw kit for operators running multiple businesses from a phone." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://openclaw.dylanander.com" />
+<link rel="icon" href="https://cdn.prod.website-files.com/6973c245250533328d52b954/6977ac71723e15c4d5759a6a_DylanAnder-Favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0a;
-    --panel: #111;
-    --panel-2: #161616;
-    --ink: #f4f4f4;
-    --ink-dim: #9a9a9a;
-    --ink-dimmer: #6a6a6a;
-    --line: #1f1f1f;
-    --line-2: #2a2a2a;
-    --accent: #ff6b35;
-    --accent-soft: rgba(255,107,53,0.12);
-    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Arial, sans-serif;
-    --serif: "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
+    --paper: #faf8f4;
+    --paper-2: #f4f1ea;
+    --ink: #141413;
+    --accent: #9500ff;
+    --accent-strong: #7a00cc;
+    --accent-muted: rgba(149, 0, 255, 0.08);
+    --accent-light-bg: #eee9ff;
+    --bg-deep: #22003b;
+    --line: rgba(20, 20, 19, 0.10);
+    --line-strong: rgba(20, 20, 19, 0.25);
+    --mute: rgba(20, 20, 19, 0.55);
+    --mute-2: rgba(20, 20, 19, 0.38);
+    --sans: "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-  body { font-size: 16px; line-height: 1.6; }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  code, pre { font-family: var(--mono); }
-  pre { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 18px 20px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  body { font-size: 17px; line-height: 1.6; font-weight: 400; }
+  a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong); transition: border-color 0.15s ease; }
+  a:hover { border-bottom-color: var(--ink); }
+  a.accent { color: var(--accent); border-bottom-color: var(--accent); }
+  a.accent:hover { color: var(--accent-strong); border-bottom-color: var(--accent-strong); }
+  code, pre, .mono { font-family: var(--mono); }
+  pre { background: transparent; padding: 0; margin: 0; overflow-x: auto; font-size: 14px; line-height: 1.55; }
+  ::selection { background: var(--accent); color: #fff; }
 
-  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 28px; }
 
   /* Top bar */
-  .topbar { border-bottom: 1px solid var(--line); padding: 18px 0; position: sticky; top: 0; background: rgba(10,10,10,0.92); backdrop-filter: blur(8px); z-index: 10; }
+  .topbar { border-bottom: 1px solid var(--line); padding: 22px 0; position: sticky; top: 0; background: rgba(250, 248, 244, 0.92); backdrop-filter: blur(10px); z-index: 50; }
   .topbar .inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .brand { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; color: var(--ink-dim); text-transform: uppercase; }
-  .brand a { color: var(--ink); }
-  .nav { display: flex; gap: 22px; font-size: 13px; }
-  .nav a { color: var(--ink-dim); }
-  .nav a:hover { color: var(--ink); text-decoration: none; }
-  @media (max-width: 720px) { .nav { display: none; } }
+  .brand { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--mute); text-transform: uppercase; }
+  .brand .author { color: var(--ink); }
+  .brand .sep { margin: 0 8px; color: var(--mute-2); }
+  .brand .kit { color: var(--ink); }
+  .nav { display: flex; gap: 24px; font-size: 13px; font-family: var(--mono); letter-spacing: 0.02em; }
+  .nav a { color: var(--mute); border-bottom: none; }
+  .nav a:hover { color: var(--ink); }
+  .nav a.cta { color: var(--accent); }
+  .nav a.cta:hover { color: var(--accent-strong); }
+  @media (max-width: 760px) { .nav { gap: 14px; font-size: 11px; } .nav .hide-sm { display: none; } }
 
-  /* Section labels */
-  .label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  /* Eyebrow */
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--mute); text-transform: uppercase; margin: 0 0 28px; }
+  .eyebrow .dot { margin: 0 8px; color: var(--mute-2); }
+  .eyebrow .accent { color: var(--accent); }
+
+  /* Section header */
+  section { padding: 88px 0; border-top: 1px solid var(--line); }
+  section:first-of-type { border-top: none; }
+  .section-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--mute); text-transform: uppercase; margin: 0 0 24px; }
+  .section-tag .accent { color: var(--accent); }
+  h2 { font-size: 40px; line-height: 1.12; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 28px; max-width: 720px; }
+  h2 em { font-style: italic; font-weight: 500; }
+  .lead { font-size: 19px; line-height: 1.55; color: var(--mute); max-width: 680px; margin: 0 0 48px; }
 
   /* Hero */
-  .hero { padding: 90px 0 60px; }
-  .hero h1 { font-size: 56px; line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 24px; }
-  .hero h1 .accent { color: var(--accent); }
-  .hero .sub { font-size: 19px; color: var(--ink-dim); max-width: 680px; margin: 0 0 36px; }
-  .install-box { background: var(--panel); border: 1px solid var(--line-2); border-radius: 8px; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; max-width: 760px; }
-  .install-cmd { font-family: var(--mono); font-size: 15px; color: var(--ink); overflow-x: auto; white-space: nowrap; }
-  .install-cmd .dim { color: var(--ink-dimmer); }
-  .copy-btn { background: var(--accent); color: #0a0a0a; border: 0; padding: 9px 16px; border-radius: 5px; font-family: var(--sans); font-weight: 600; font-size: 13px; cursor: pointer; flex-shrink: 0; }
-  .copy-btn:hover { background: #ff8559; }
-  .copy-btn.copied { background: #4ade80; }
-  .fine { font-size: 13px; color: var(--ink-dimmer); margin-top: 16px; max-width: 760px; }
+  .hero { padding: 110px 0 90px; border-top: none; }
+  .hero h1 { font-size: 64px; line-height: 1.04; font-weight: 600; letter-spacing: -0.025em; margin: 0 0 32px; max-width: 800px; }
+  .hero h1 em { font-style: italic; font-weight: 500; }
+  .hero .sub { font-size: 21px; line-height: 1.5; color: var(--mute); max-width: 660px; margin: 0 0 44px; }
+  @media (max-width: 760px) { .hero { padding: 70px 0 60px; } .hero h1 { font-size: 42px; } .hero .sub { font-size: 18px; } h2 { font-size: 30px; } }
 
-  /* Pull quote under hero */
-  .pull-quote { margin: 48px 0 0; padding: 22px 26px; border-left: 3px solid var(--accent); background: var(--accent-soft); max-width: 760px; border-radius: 0 6px 6px 0; }
-  .pull-quote p { margin: 0; font-family: var(--serif); font-style: italic; font-size: 21px; line-height: 1.45; color: var(--ink); }
-  .pull-quote .attrib { display: block; margin-top: 12px; font-family: var(--mono); font-style: normal; font-size: 12px; letter-spacing: 0.06em; color: var(--ink-dim); text-transform: uppercase; }
+  /* Install box */
+  .install { border: 1px solid var(--line-strong); border-radius: 4px; padding: 22px 24px; background: var(--paper-2); max-width: 720px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .install .cmd { font-family: var(--mono); font-size: 14px; color: var(--ink); overflow-x: auto; white-space: nowrap; flex: 1; }
+  .install .cmd .dim { color: var(--mute); }
+  .install button { background: var(--accent); color: #fff; border: 0; padding: 10px 18px; border-radius: 3px; font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; flex-shrink: 0; transition: background 0.15s ease; }
+  .install button:hover { background: var(--accent-strong); }
+  .install-note { font-size: 14px; color: var(--mute); margin: 18px 0 0; max-width: 660px; line-height: 1.55; }
 
-  /* Quick badges */
-  .badges { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 40px; font-size: 13px; color: var(--ink-dim); }
-  .badges span::before { content: "▸ "; color: var(--accent); }
+  /* Proof row */
+  .proof { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 56px; border-top: 1px solid var(--line); }
+  .proof div { padding: 22px 14px 0 0; font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em; color: var(--mute); }
+  .proof div::before { content: "·  "; color: var(--accent); }
+  @media (max-width: 760px) { .proof { grid-template-columns: repeat(2, 1fr); } }
 
-  /* Sections */
-  section.block { padding: 80px 0; border-top: 1px solid var(--line); }
-  section.block h2 { font-size: 38px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 18px; }
-  section.block .lede { font-size: 17px; color: var(--ink-dim); max-width: 720px; margin: 0 0 48px; }
+  /* Cards (4-up) */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .card { padding: 32px 28px 36px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .card .num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0 0 16px; }
+  .card h3 { font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 14px; }
+  .card p { font-size: 15px; line-height: 1.6; color: var(--mute); margin: 0; }
+  @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
 
-  /* 2-col features */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
-  .feature { padding: 28px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
-  .feature .tag { font-family: var(--mono); font-size: 11px; color: var(--ink-dimmer); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
-  .feature h3 { font-size: 20px; margin: 0 0 10px; font-weight: 600; }
-  .feature p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+  /* Measurements strip */
+  .strip { background: var(--bg-deep); color: #fff; padding: 72px 0; border: none; }
+  .strip .inner { max-width: 880px; margin: 0 auto; padding: 0 28px; }
+  .strip .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .strip .item .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: rgba(255,255,255,0.55); text-transform: uppercase; margin: 0 0 12px; }
+  .strip .item .v { font-size: 42px; line-height: 1; font-weight: 500; letter-spacing: -0.02em; margin: 0 0 12px; }
+  .strip .item .v .accent { color: var(--accent); }
+  .strip .item .d { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+  @media (max-width: 760px) { .strip .grid { grid-template-columns: repeat(2, 1fr); } .strip .item .v { font-size: 32px; } }
 
-  /* Stats row */
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 16px; }
-  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 22px; }
-  .stat .tag { font-family: var(--mono); font-size: 11px; color: var(--ink-dimmer); letter-spacing: 0.08em; text-transform: uppercase; }
-  .stat .big { font-size: 32px; font-weight: 700; margin: 6px 0 4px; letter-spacing: -0.01em; }
-  .stat .note { color: var(--ink-dim); font-size: 13px; }
+  /* Inside list */
+  .inside-list { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .inside-list .row { display: grid; grid-template-columns: 180px 1fr; gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .inside-list .row .tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; }
+  .inside-list .row h4 { font-size: 18px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.005em; }
+  .inside-list .row p { font-size: 15px; color: var(--mute); margin: 0; line-height: 1.55; }
+  @media (max-width: 760px) { .inside-list .row { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; } }
 
-  /* Inside the kit (file list) */
-  .file-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 720px) { .file-list { grid-template-columns: 1fr; } }
-  .file { padding: 20px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
-  .file .name { font-family: var(--mono); font-size: 13px; color: var(--accent); margin-bottom: 6px; }
-  .file .desc { color: var(--ink-dim); font-size: 14px; line-height: 1.5; }
+  /* Differences grid (10 cells) */
+  .diffs { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .diffs .cell { padding: 24px 18px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 110px; display: flex; flex-direction: column; justify-content: flex-start; }
+  .diffs .cell .n { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--mute-2); margin: 0 0 10px; }
+  .diffs .cell .n .accent { color: var(--accent); }
+  .diffs .cell h4 { font-size: 15px; line-height: 1.3; font-weight: 600; margin: 0; letter-spacing: -0.005em; }
+  @media (max-width: 1000px) { .diffs { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .diffs { grid-template-columns: repeat(2, 1fr); } }
 
-  /* Architecture diff table */
-  .diff { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-  @media (max-width: 720px) { .diff { grid-template-columns: 1fr; } }
-  .diff .col { padding: 24px; background: var(--panel); border-right: 1px solid var(--line); }
-  .diff .col:last-child { border-right: 0; }
-  @media (max-width: 720px) { .diff .col { border-right: 0; border-bottom: 1px solid var(--line); } .diff .col:last-child { border-bottom: 0; } }
-  .diff h4 { margin: 0 0 4px; font-size: 15px; }
-  .diff .sub { font-family: var(--mono); font-size: 11px; color: var(--ink-dimmer); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
-  .diff ul { margin: 0; padding-left: 18px; color: var(--ink-dim); font-size: 14px; line-height: 1.6; }
-  .diff li { margin-bottom: 6px; }
-  .diff .col.mine { background: linear-gradient(180deg, rgba(255,107,53,0.08), transparent 60%); }
-  .diff .col.mine h4 { color: var(--accent); }
+  /* Lessons (sample patterns) */
+  .lessons { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+  .lesson { padding: 30px 26px 34px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .lesson .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); margin: 0 0 14px; text-transform: uppercase; }
+  .lesson h4 { font-size: 19px; line-height: 1.3; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.005em; }
+  .lesson p { font-size: 15px; line-height: 1.6; color: var(--mute); margin: 0; }
+  @media (max-width: 760px) { .lessons { grid-template-columns: 1fr; } }
 
   /* Install modes */
-  .modes { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  .mode { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 24px; }
-  .mode .tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-  .mode h3 { margin: 0 0 8px; font-size: 18px; }
-  .mode p { margin: 0 0 14px; color: var(--ink-dim); font-size: 14px; }
-  .mode pre { margin: 0; }
+  .modes { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .mode { padding: 36px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 220px 1fr; gap: 36px; align-items: start; }
+  .mode .label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+  .mode h4 { font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
+  .mode p { font-size: 15px; color: var(--mute); margin: 0 0 18px; line-height: 1.6; max-width: 600px; }
+  .mode .code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--line-strong); border-radius: 3px; padding: 14px 16px; overflow-x: auto; white-space: pre; }
+  @media (max-width: 760px) { .mode { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; } }
 
   /* FAQ */
-  .faq details { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 22px; margin-bottom: 12px; }
-  .faq summary { cursor: pointer; font-weight: 600; font-size: 16px; list-style: none; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::before { content: "+ "; color: var(--accent); font-family: var(--mono); }
-  .faq details[open] summary::before { content: "− "; }
-  .faq details p { margin: 14px 0 0; color: var(--ink-dim); font-size: 15px; }
+  details { border-bottom: 1px solid var(--line); padding: 22px 0; }
+  details:first-of-type { border-top: 1px solid var(--line); }
+  details summary { font-size: 17px; font-weight: 500; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: "+"; font-family: var(--mono); color: var(--accent); font-size: 18px; font-weight: 400; transition: transform 0.2s ease; }
+  details[open] summary::after { content: "−"; }
+  details .answer { padding: 16px 0 0; color: var(--mute); font-size: 16px; line-height: 1.65; max-width: 720px; }
+  details .answer a { color: var(--ink); border-bottom-color: var(--accent); }
 
   /* Final CTA */
-  .final { text-align: center; padding: 90px 0; border-top: 1px solid var(--line); }
-  .final h2 { font-size: 42px; margin: 0 0 12px; letter-spacing: -0.01em; }
-  .final .sub { color: var(--ink-dim); margin-bottom: 30px; font-size: 17px; }
+  .final { padding: 110px 0; }
+  .final h2 { font-size: 52px; line-height: 1.08; font-weight: 600; letter-spacing: -0.025em; margin: 0 0 28px; }
+  .final h2 em { font-style: italic; font-weight: 500; }
+  .final .lead { font-size: 19px; margin-bottom: 40px; }
+  .final-links { margin-top: 28px; font-size: 14px; color: var(--mute); font-family: var(--mono); }
+  .final-links a { color: var(--mute); border-bottom-color: var(--line); margin-right: 22px; }
+  .final-links a:hover { color: var(--ink); }
+  @media (max-width: 760px) { .final { padding: 70px 0; } .final h2 { font-size: 34px; } }
 
   /* Footer */
-  footer { border-top: 1px solid var(--line); padding: 28px 0; font-size: 13px; color: var(--ink-dimmer); }
-  footer .inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
-  footer a { color: var(--ink-dim); }
+  footer { border-top: 1px solid var(--line); padding: 36px 0 60px; font-size: 13px; color: var(--mute); font-family: var(--mono); }
+  footer .inner { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+  footer a { color: var(--mute); border-bottom: none; margin-left: 22px; }
+  footer a:hover { color: var(--ink); }
+  footer .social a { margin-left: 16px; }
 </style>
 </head>
 <body>
 
+<!-- TOP BAR -->
 <div class="topbar">
   <div class="wrap inner">
-    <div class="brand"><a href="/">DYLANANDER.COM</a> / OPENCLAW · v1.0 · MIT</div>
+    <div class="brand">
+      <span class="author">Dylan Ander</span><span class="sep">·</span><span class="kit">OpenClaw</span>
+    </div>
     <nav class="nav">
-      <a href="#cost">The cost</a>
-      <a href="#fix">The fix</a>
-      <a href="#inside">Inside</a>
-      <a href="#install">Install</a>
-      <a href="#faq">FAQ</a>
-      <a href="https://github.com/dylanander/dylan-ander-openclaw">GitHub ↗</a>
+      <a href="#tax" class="hide-sm">cost</a>
+      <a href="#after" class="hide-sm">fix</a>
+      <a href="#inside">inside</a>
+      <a href="#patterns" class="hide-sm">patterns</a>
+      <a href="#install">install</a>
+      <a href="#faq" class="hide-sm">faq</a>
+      <a href="https://github.com/dylan-ander/openclaw" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="#final" class="cta">Get it free</a>
     </nav>
   </div>
 </div>
 
-<div class="wrap hero">
-  <div class="label">§00 · The phone is the office</div>
-  <h1>Run companies <span class="accent">from your phone.</span></h1>
-  <p class="sub">A sanitized snapshot of the actual OpenClaw config running four businesses from a single phone. Multi-agent. Multi-business. Multi-channel. Iron laws. Threads as protocol. Free.</p>
-
-  <div class="install-box">
-    <div class="install-cmd" id="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
-    <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
-  </div>
-  <p class="fine">Free. MIT license. Safe-default install drops the kit into a new <code>dylan-ander-openclaw/</code> subfolder. Your existing SOUL, USER, AGENTS, and MEMORY files are never touched.</p>
-
-  <div class="pull-quote">
-    <p>"I have virtually no 'what if I could do X' moments anymore. From code to comms, OpenClaw does everything I want it to do. That's the bar."</p>
-    <span class="attrib">// Dylan Ander</span>
-  </div>
-
-  <div class="badges">
-    <span>Free forever</span>
-    <span>MIT licensed</span>
-    <span>Zero overwrites</span>
-    <span>Read-only default</span>
-  </div>
-</div>
-
-<section class="block" id="cost">
+<!-- HERO -->
+<section class="hero">
   <div class="wrap">
-    <div class="label">§01 · The single-agent ceiling</div>
-    <h2>One agent isn't an operating system.</h2>
-    <p class="lede">A single-agent assistant is great for a side project. Try running four businesses through it and the seams show inside a week. Same four failure modes, every time.</p>
+    <p class="eyebrow">DYLANANDER.COM<span class="dot">/</span>OPENCLAW<span class="dot">/</span>MULTI-AGENT KIT<span class="dot">·</span><span class="accent">v1.0</span><span class="dot">·</span>MIT LICENSED</p>
+    <h1>Your OpenClaw agent, <em>sharpened for multi-project operators</em>.</h1>
+    <p class="sub">A 2,000-word manual and the architecture for running multiple businesses through OpenClaw from your phone. Free. MIT. Read-only default. Never overwrites your files.</p>
 
-    <div class="grid-2">
-      <div class="feature">
-        <div class="tag">Failure 01</div>
-        <h3>Cross-contamination</h3>
-        <p>The ecom brand's voice leaks into the agency's client email. The portfolio company's confidential data shows up in a newsletter draft. One agent, one memory, four businesses, zero firewall.</p>
+    <div class="install">
+      <div class="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+      <button onclick="navigator.clipboard.writeText('curl -sSL https://openclaw.dylanander.com/install.sh | bash'); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+    </div>
+    <p class="install-note">Free. MIT license. Safe-default install drops the multi-agent reference architecture into a new <code>dylan-ander-openclaw/</code> subfolder. Your existing SOUL, USER, AGENTS, and MEMORY files are never touched.</p>
+
+    <div class="proof">
+      <div>Free forever</div>
+      <div>MIT licensed</div>
+      <div>Zero overwrites</div>
+      <div>Read-only default</div>
+    </div>
+  </div>
+</section>
+
+<!-- §01 THE TAX -->
+<section id="tax">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§01</span> · The cost of a single-agent setup</p>
+    <h2>Every multi-business operator is paying the agent tax.</h2>
+    <p class="lead">You spun up one agent. It was sharp for one project. The moment you tried to run a second business through it, the same four failure modes showed up. Every single time.</p>
+
+    <div class="cards">
+      <div class="card">
+        <p class="num">§ The context tax</p>
+        <h3>One agent forces you to reload entire worldviews every project switch.</h3>
+        <p>Personal life, three companies, a newsletter, a fund. Same context window. The agent that just wrote your wife a birthday note is now drafting a board update. It is the wrong model in the wrong voice with the wrong memory.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Failure 02</div>
-        <h3>Priority collapse</h3>
-        <p>Everything is P0 because nothing is. The agent surfaces a Slack ping with the same urgency as a $24K renewal. Without explicit lanes, the agent treats every message as a tap on the shoulder.</p>
+      <div class="card">
+        <p class="num">§ The memory tax</p>
+        <h3>One memory bucket. Everything shares the same retrieval surface.</h3>
+        <p>Your kid's school schedule and a client billing dispute sit in the same semantic search index. When you ask "what is happening this week," both surface. Neither is right. Privacy and signal both collapse.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Failure 03</div>
-        <h3>Channel chaos</h3>
-        <p>The agent doesn't know that Telegram is mobile-direct, Slack is team-facing, and email goes from Steve the EA, never from the principal. Without per-channel rules, everything sounds like Slack.</p>
+      <div class="card">
+        <p class="num">§ The tone tax</p>
+        <h3>The voice that works for family is wrong for an audience of 30,000.</h3>
+        <p>Your newsletter persona is dry, sharp, third-person. Your operator persona is short, direct, first-person. Your family persona is warm. One agent collapses all three into one mushy average voice that fits no audience.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Failure 04</div>
-        <h3>No org chart</h3>
-        <p>The agent does brilliant first-pass strategy and brilliant first-pass copy and brilliant first-pass code review. None of it ships, because there's no specialist sub-agent that owns the output and no protocol for handing the work off.</p>
+      <div class="card">
+        <p class="num">§ The drift tax</p>
+        <h3>"Self-optimizing prompts" is a feature pitched as adaptation.</h3>
+        <p>It is behavior you can't control over time. The thing you trained on Monday quietly mutates by Friday. You stop trusting what the agent will do next. You start checking every output. That is not leverage. That is a junior employee with amnesia.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="fix">
+<!-- §02 THE FIX -->
+<section id="after">
   <div class="wrap">
-    <div class="label">§02 · What changes with the kit</div>
-    <h2>Same model. Same workspace. An actual org chart.</h2>
-    <p class="lede">The kit gives your OpenClaw the scaffold that distinguishes a clever assistant from an actual operations layer. Multi-agent registry. Iron-law memory. Priority lanes with weekday SLAs. Per-channel rules. Business-prefix shorthand.</p>
+    <p class="section-tag"><span class="accent">§02</span> · What changes after the kit</p>
+    <h2>Same OpenClaw runtime. <em>Different org chart.</em></h2>
+    <p class="lead">The kit doesn't replace the underlying model. It gives OpenClaw the multi-agent architecture that distinguishes a useful operator from a flashy assistant.</p>
 
-    <div class="grid-2">
-      <div class="feature">
-        <div class="tag">Fix 01</div>
-        <h3>Per-business memory firewall</h3>
-        <p>Every thread, every memory, every task is tagged with a business prefix (MS, JB, HM, DA, LTM). The agent reasons inside one lane at a time. No accidental leak from agency context into ecom output.</p>
+    <div class="cards">
+      <div class="card">
+        <p class="num">§ Identity-level multi-agent</p>
+        <h3>Each agent is a first-class identity, not a sub-task.</h3>
+        <p>Register <code>main</code>, <code>da-content</code>, <code>@jellybee_bot</code>, and more. Each gets its own SOUL.md, MEMORY.md, channel binding, and model. They don't share context. They don't share voice. They don't leak.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Fix 02</div>
-        <h3>Priority lanes that mean something</h3>
-        <p>P0 has a 48-hour weekday SLA. Day 2 nudges. Day 3 auto-demotes to P1 unless re-committed. Most threads die at P1 or P2. Closing is the win.</p>
+      <div class="card">
+        <p class="num">§ Iron laws as durable contracts</p>
+        <h3>Behavior survives context resets, compaction, and model updates.</h3>
+        <p>🚨 IRON LAW formatted lines live in MEMORY.md at the top of the file. They get cached. They don't drift because they're not prompts. They're contracts. The agent reads them first, every session, forever.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Fix 03</div>
-        <h3>Specialist sub-agents</h3>
-        <p>Main EA. Content writer. Brand ops agent. Each with its own SOUL, its own memory namespace, its own toolkit, its own iron laws. The main agent delegates; specialists own their lane.</p>
+      <div class="card">
+        <p class="num">§ Cache-boundary memory</p>
+        <h3>Behavior never competes with the day's noise for context.</h3>
+        <p>A <code>&lt;!-- OPENCLAW_CACHE_BOUNDARY --&gt;</code> marker splits MEMORY.md. Iron laws and durable identity sit above the line and get cached. Daily mutable state sits below. Two different lifetimes. One file.</p>
       </div>
-      <div class="feature">
-        <div class="tag">Fix 04</div>
-        <h3>Channels treated as channels</h3>
-        <p>Telegram is mobile-direct. Slack is team-facing. Email is draft-and-approve, sent from the EA, never the principal. The agent stops sounding like Slack everywhere.</p>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><div class="tag">Businesses</div><div class="big">4</div><div class="note">Running through agents today.</div></div>
-      <div class="stat"><div class="tag">Agents</div><div class="big">3+</div><div class="note">Main, content, brand ops. More on demand.</div></div>
-      <div class="stat"><div class="tag">Channels</div><div class="big">5</div><div class="note">Telegram, Slack, email, iMessage, Discord.</div></div>
-      <div class="stat"><div class="tag">License</div><div class="big">MIT</div><div class="note">Fork. Modify. Redistribute.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="block" id="inside">
-  <div class="wrap">
-    <div class="label">§03 · What's inside</div>
-    <h2>The actual config, sanitized.</h2>
-    <p class="lede">Eight template files at the root, three docs in the docs folder, a multi-agent registry, a threads protocol, a tools catalog. Every file is reference material. Read it, see what you don't already do, adopt what fits.</p>
-
-    <div class="file-list">
-      <div class="file"><div class="name">AGENTS.md</div><div class="desc">Workspace conventions. Session-startup order. Memory write discipline. External-vs-internal rules.</div></div>
-      <div class="file"><div class="name">SOUL.md</div><div class="desc">Operator persona. The voice and stance of the primary EA agent.</div></div>
-      <div class="file"><div class="name">IDENTITY.md</div><div class="desc">Who the agent is. Name, vibe, emoji, avatar.</div></div>
-      <div class="file"><div class="name">USER.md</div><div class="desc">Who the human is. Timezone, communication rules, the things that matter.</div></div>
-      <div class="file"><div class="name">MEMORY.md</div><div class="desc">Long-term memory with the iron-law format. Cache-boundary comment splits hot from cold context.</div></div>
-      <div class="file"><div class="name">TOOLS.md</div><div class="desc">Wired-tools catalog. One section per service: status, credentials path, primary CLI, common ops.</div></div>
-      <div class="file"><div class="name">HEARTBEAT.md</div><div class="desc">Proactivity rules. When to surface, when to stay silent, what to rotate through.</div></div>
-      <div class="file"><div class="name">threads/threads.md</div><div class="desc">P0/P1/P2/P3 priority lanes with business prefix shorthand and weekday-only SLAs.</div></div>
-      <div class="file"><div class="name">memory/README.md</div><div class="desc">Daily-log format and archive rotation. Daily files are raw notes; MEMORY.md is curated wisdom.</div></div>
-      <div class="file"><div class="name">journal/README.md</div><div class="desc">Bed/wake/hours/feel/day schema. Clean signal, no commentary.</div></div>
-      <div class="file"><div class="name">agents/</div><div class="desc">Multi-agent registry. Each sub-agent has its own AGENTS.md, SOUL.md, memory namespace.</div></div>
-      <div class="file"><div class="name">skills/</div><div class="desc">Custom skill structure. SKILL.md format with description, location, lessons learned.</div></div>
-      <div class="file"><div class="name">docs/ARCHITECTURE.md</div><div class="desc">The full architecture explained. Multi-agent, multi-business, multi-channel.</div></div>
-      <div class="file"><div class="name">docs/MIGRATING-FROM-HERMES.md</div><div class="desc">The actual migration story. From single-agent to operator-at-scale.</div></div>
-      <div class="file"><div class="name">docs/MULTI-BUSINESS-SETUP.md</div><div class="desc">How to partition multiple businesses inside one workspace without leaks.</div></div>
-      <div class="file"><div class="name">install.sh</div><div class="desc">Safe three-mode installer. Learn (default, read-only). Additive. Fresh.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="block">
-  <div class="wrap">
-    <div class="label">§04 · The lineage</div>
-    <h2>Single agent. Discipline layer. Operating system.</h2>
-    <p class="lede">Three layers of the same idea, stacking. Nik Sharma's Operator Kit is the discipline layer for one agent. This kit is the multi-agent OS on top. They compose.</p>
-
-    <div class="diff">
-      <div class="col">
-        <h4>Hermes</h4>
-        <div class="sub">single-agent assistant</div>
-        <ul>
-          <li>One agent, one human</li>
-          <li>Telegram + Discord</li>
-          <li>Filesystem checkpoints</li>
-          <li>Skill system</li>
-          <li>MIT, self-hosted</li>
-        </ul>
-      </div>
-      <div class="col">
-        <h4>Nik's Operator Kit</h4>
-        <div class="sub">discipline layer</div>
-        <ul>
-          <li>3,000-word manual</li>
-          <li>322 lessons in 25 categories</li>
-          <li>6 reference templates</li>
-          <li>Read-only safe install</li>
-          <li>Sharpens one OpenClaw agent</li>
-        </ul>
-      </div>
-      <div class="col mine">
-        <h4>Dylan's OpenClaw</h4>
-        <div class="sub">operator-at-scale</div>
-        <ul>
-          <li>Multi-agent registry</li>
-          <li>Multi-business memory firewall</li>
-          <li>Multi-channel rules (TG, Slack, email)</li>
-          <li>Threads protocol with weekday SLAs</li>
-          <li>Wired-tools catalog (Gmail, Monday, Beehiiv, Klaviyo, Stripe, Shopify, GitHub)</li>
-        </ul>
+      <div class="card">
+        <p class="num">§ Threads as protocol</p>
+        <h3>P0/P1/P2/P3 priority lanes. SLA. The agent enforces it. You don't.</h3>
+        <p>48-business-hour SLA. Weekend pauses. Business prefixes on every thread. Monday.com mirror. You don't chase your own task list. The agent reports what slipped and what's next, on a schedule you control.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="install">
+<!-- MEASUREMENTS STRIP -->
+<section class="strip">
+  <div class="inner">
+    <div class="grid">
+      <div class="item">
+        <p class="k">Projects</p>
+        <p class="v"><span class="accent">4</span></p>
+        <p class="d">Personal, content brand, agency, fund. One operator. One phone. Four identities.</p>
+      </div>
+      <div class="item">
+        <p class="k">Identities</p>
+        <p class="v"><span class="accent">3+</span></p>
+        <p class="d">Main agent. Content sub-agent. Bot fleet. Each with its own SOUL, MEMORY, channel, model.</p>
+      </div>
+      <div class="item">
+        <p class="k">Iron laws</p>
+        <p class="v"><span class="accent">∞</span></p>
+        <p class="d">Durable, cached, 🚨-tagged. Survive compaction. Don't drift. Add new ones forever.</p>
+      </div>
+      <div class="item">
+        <p class="k">Cost</p>
+        <p class="v"><span class="accent">$0</span></p>
+        <p class="d">Free forever. MIT license. Fork, modify, redistribute. Credit appreciated, not required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §03 WHAT'S INSIDE -->
+<section id="inside">
   <div class="wrap">
-    <div class="label">§05 · Install</div>
-    <h2>Three modes. Safe by default.</h2>
-    <p class="lede">The default install never touches your existing SOUL, USER, AGENTS, or MEMORY files. Everything lands in a new <code>dylan-ander-openclaw/</code> subfolder. Your agent reads it and proposes patterns to adopt with your approval.</p>
+    <p class="section-tag"><span class="accent">§03</span> · What's inside</p>
+    <h2>A manual, eight templates, two reference docs, one installer.</h2>
+    <p class="lead">Everything is reference material. You read it, see what patterns your current setup is missing, adopt what fits. The kit never rewrites your existing identity files.</p>
+
+    <div class="inside-list">
+      <div class="row"><span class="tag">01 · AGENTS.md</span><div><h4>Workspace conventions</h4><p>Session startup order, memory write discipline, red lines, external-vs-internal rules. The contract every agent in the fleet follows every session.</p></div></div>
+      <div class="row"><span class="tag">02 · SOUL.md</span><div><h4>Operator persona</h4><p>Voice, temperament, work ethic, boundaries. One per agent. The content sub-agent has a different SOUL than the main agent. That's the point.</p></div></div>
+      <div class="row"><span class="tag">03 · IDENTITY.md</span><div><h4>Who the agent is</h4><p>Name, creature, vibe, emoji, avatar. The agent's metadata as a first-class identity, not a session label.</p></div></div>
+      <div class="row"><span class="tag">04 · USER.md</span><div><h4>Who the human is</h4><p>Reference scaffold for who you are, how you work, what you care about, what your agents should never do without asking.</p></div></div>
+      <div class="row"><span class="tag">05 · MEMORY.md</span><div><h4>Long-term memory with iron laws</h4><p>🚨 IRON LAW format. Cache-boundary marker. Durable above the line, mutable below. Lean. Under 10,000 characters so semantic search stays sharp.</p></div></div>
+      <div class="row"><span class="tag">06 · TOOLS.md</span><div><h4>Wired-tools catalog</h4><p>Beehiiv, Google Workspace, Monday.com, Klaviyo, Telegram, Vercel. Per-tool auth, base URLs, common ops. The local cheat sheet.</p></div></div>
+      <div class="row"><span class="tag">07 · HEARTBEAT.md</span><div><h4>Proactivity rules</h4><p>Silent-by-default check routines. Rotating coverage of email, calendar, mentions, weather. Batched findings. No "all clear" spam.</p></div></div>
+      <div class="row"><span class="tag">08 · threads/</span><div><h4>Threads as protocol</h4><p>P0/P1/P2/P3 priority lanes. 48-business-hour SLA. Business prefixes. Monday.com mirror. The agent reports slippage. You don't chase it.</p></div></div>
+      <div class="row"><span class="tag">09 · agents/</span><div><h4>Multi-agent registry</h4><p>Main agent. Content sub-agent. Each with its own channel binding, model selection, and isolation rules. The org chart, in markdown.</p></div></div>
+      <div class="row"><span class="tag">10 · memory/</span><div><h4>Daily logs + archive rotation</h4><p>memory/YYYY-MM-DD.md is the raw journal. MEMORY.md is the curated wisdom. Periodic promotion. Bounded growth. Nothing rots.</p></div></div>
+      <div class="row"><span class="tag">11 · journal/</span><div><h4>Bed/wake/feel/day schema</h4><p>The operator's daily journal template. Sleep, energy, what shipped, what slipped. One file per day. Surfaced on demand.</p></div></div>
+      <div class="row"><span class="tag">12 · skills/</span><div><h4>Custom skill structure</h4><p>The folder where reusable skills live. Each one has a SKILL.md description so the agent picks the right tool for the job.</p></div></div>
+      <div class="row"><span class="tag">13 · docs/</span><div><h4>Architecture, migration, multi-business</h4><p>ARCHITECTURE.md (the 10 differences). MIGRATING-FROM-HERMES.md (step-by-step). MULTI-BUSINESS-SETUP.md (the org chart pattern).</p></div></div>
+      <div class="row"><span class="tag">+ install.sh</span><div><h4>Safe three-mode installer</h4><p>Default (read-only, drops into <code>dylan-ander-openclaw/</code>). Additive (optional scaffolding). Fresh (new workspaces only). Your files are never silently overwritten.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- §04 THE 10 DIFFERENCES -->
+<section id="differences">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§04</span> · All 10 architectural differences</p>
+    <h2>Every layer of multi-agent operator discipline.</h2>
+    <p class="lead">Workspace as truth. Identities as first-class. Iron laws as contracts. Memory as cache. Threads as protocol. Skills as infrastructure. Heartbeats over cron. One model per agent. Plus the operational glue: gateway, tunnel, dashboard, ACP coding agents.</p>
+
+    <div class="diffs">
+      <div class="cell"><p class="n"><span class="accent">§ 01</span></p><h4>Workspace as source of truth</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 02</span></p><h4>Identity-level multi-agent</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 03</span></p><h4>Iron laws as durable contracts</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 04</span></p><h4>Cache-boundary memory</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 05</span></p><h4>Threads as protocol</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 06</span></p><h4>Skills as infrastructure</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 07</span></p><h4>Gateway, tunnel, dashboard</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 08</span></p><h4>ACP coding agents first-class</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 09</span></p><h4>Heartbeats vs cron</h4></div>
+      <div class="cell"><p class="n"><span class="accent">§ 10</span></p><h4>Model per agent</h4></div>
+    </div>
+    <p class="install-note" style="margin-top: 28px;">All 10 covered end to end in <a href="/docs/ARCHITECTURE.md" class="accent">docs/ARCHITECTURE.md</a>.</p>
+  </div>
+</section>
+
+<!-- §05 SAMPLE PATTERNS -->
+<section id="patterns">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§05</span> · Patterns from real work</p>
+    <h2>Eight of the iron laws.</h2>
+    <p class="lead">Each one came from a real failure or a real win across four businesses. No theory. No training-doc language. Operator voice throughout.</p>
+
+    <div class="lessons">
+      <div class="lesson">
+        <p class="tag">§ 01.1 · MEMORY</p>
+        <h4>Iron-law formatting</h4>
+        <p>When the operator states a rule, capture it in MEMORY.md under a 🚨 IRON LAW heading with the date and the context that triggered it. Plain paragraphs get skimmed. Iron laws get followed because they're a visual tripwire for your future self.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 02.1 · VOICE</p>
+        <h4>Zero em dashes. Ever.</h4>
+        <p>Em dashes are an AI tell. The Dylan Ander newsletter persona has been clean for three years and the audience knows it. One em dash in a draft and the brand voice collapses. Replace with a period, a colon, or a sentence break.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 03.2 · OUTBOUND</p>
+        <h4>All email goes through the EA.</h4>
+        <p>The principal never sends. The EA agent sends on behalf of the principal. Every external message gets routed, contextualized, and tone-checked first. Zero exceptions. The principal's inbox is for reading.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 04.3 · RELATIONSHIPS</p>
+        <h4>Important dates ping at 14, 7, and 3.</h4>
+        <p>Anniversaries, birthdays, big client renewals. The agent surfaces them fourteen, seven, and three days out. Not the day of. Not the day before. Lead time is the gift. (Lesson learned from a Mother's Day miss.)</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 05.4 · ISOLATION</p>
+        <h4>The content agent does not know personal context.</h4>
+        <p>Multi-agent isolation is the feature. The newsletter sub-agent has its own MEMORY.md with editorial guidelines, audience research, brand voice. It does not have access to the operator's family schedule. That separation is a contract, not a setting.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 06.2 · THREADS</p>
+        <h4>SLA is 48 business hours. Weekends pause.</h4>
+        <p>Every P1 and P2 thread gets a 48-business-hour clock. Weekends and holidays freeze it. The agent reports anything aging out of SLA at the start of every Monday. The operator doesn't chase. The agent does.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 07.1 · OUTPUT</p>
+        <h4>Phone-first means bullets, not walls.</h4>
+        <p>The operator reads on a phone 80% of the time. Walls of prose get skipped. Lead with the answer. Three to five bullets max. Headers if it runs long. The agent that writes for desktop loses on mobile every time.</p>
+      </div>
+      <div class="lesson">
+        <p class="tag">§ 08.3 · HEARTBEATS</p>
+        <h4>Silent by default. Batched. Rotated.</h4>
+        <p>Heartbeats run on a schedule. They check email, calendar, mentions, weather on rotation. They speak only if there's signal. "All clear" is silence, not a message. Otherwise you train yourself to mute the channel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- §06 INSTALL -->
+<section id="install">
+  <div class="wrap">
+    <p class="section-tag"><span class="accent">§06</span> · Install</p>
+    <h2>Three modes. <em>Safe by default.</em></h2>
+    <p class="lead">The default install never touches your existing SOUL, USER, AGENTS, or MEMORY files. Everything lands in a new <code>dylan-ander-openclaw/</code> subfolder. Your agent reads it and proposes specific patterns to adopt with your approval, rather than rewriting what you have. Inspired by the structure pioneered at <a href="https://openclaw.nik.co" target="_blank" rel="noopener" class="accent">openclaw.nik.co</a>.</p>
 
     <div class="modes">
       <div class="mode">
-        <div class="tag">Mode: Learn (default)</div>
-        <h3>Read-only. Safe for any existing workspace.</h3>
-        <p>Downloads the full kit into <code>dylan-ander-openclaw/</code>. Your workspace root is never modified. Tell your agent to read the architecture doc, then propose patterns to adopt one at a time.</p>
-        <pre>curl -sSL https://openclaw.dylanander.com/install.sh | bash</pre>
+        <span class="label">Mode: Learn (default)</span>
+        <div>
+          <h4>Read-only. Safe for any existing workspace.</h4>
+          <p>Downloads the multi-agent architecture, manual, and reference templates into <code>dylan-ander-openclaw/</code>. Your workspace root is never modified. Your agent reads the kit, compares it against your current setup, and suggests incremental patterns to adopt.</p>
+          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+        </div>
       </div>
       <div class="mode">
-        <div class="tag">Mode: Additive</div>
-        <h3>Learn mode plus optional scaffolding.</h3>
-        <p>Same as Learn, plus creates empty optional directories: <code>memory/archive/</code>, <code>journal/</code>, <code>threads/</code>, <code>brain/people/</code>, <code>brain/companies/</code>.</p>
-        <pre>curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode=additive</pre>
+        <span class="label">Mode: Additive</span>
+        <div>
+          <h4>Default mode plus optional scaffolding.</h4>
+          <p>Same as default, plus creates empty optional directories: <code>memory/archive/</code>, <code>journal/</code>, <code>threads/</code>, <code>brain/</code>. Still zero edits to your workspace root.</p>
+          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode additive</div>
+        </div>
       </div>
       <div class="mode">
-        <div class="tag">Mode: Fresh</div>
-        <h3>Brand-new workspace only.</h3>
-        <p>Writes full templates to the workspace root. If you already have SOUL.md or MEMORY.md, they're preserved and new versions land alongside with a <code>.new</code> suffix for manual diff.</p>
-        <pre>curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode=fresh</pre>
+        <span class="label">Mode: Fresh</span>
+        <div>
+          <h4>Brand-new workspace only.</h4>
+          <p>Writes full templates to the workspace root. If you already have SOUL.md or MEMORY.md, they're preserved and new versions land alongside with a <code>.new</code> suffix for manual diff. Only recommended for genuinely fresh setups.</p>
+          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode fresh</div>
+        </div>
       </div>
       <div class="mode">
-        <div class="tag">Or: tell the agent</div>
-        <h3>Skip the terminal entirely.</h3>
-        <p>Paste this into any OpenClaw chat. The agent reads the architecture doc first, then walks the rest of the kit before proposing anything.</p>
-        <pre>Read openclaw.dylanander.com/docs/ARCHITECTURE.md end to end, then walk every
-file in the dylan-ander-openclaw/ kit. Identify every pattern our existing
-workspace does not already implement (multi-agent registry, threads priority
-lanes, memory cache boundary, iron-law format, business-prefix shorthand,
-weekday SLAs). Propose specific edits to our SOUL.md / USER.md / AGENTS.md /
-MEMORY.md one pattern at a time. Do not rewrite what we have.</pre>
+        <span class="label">Or: tell the agent</span>
+        <div>
+          <h4>Skip the terminal entirely.</h4>
+          <p>Paste this in any OpenClaw chat. The agent reads the architecture and the migration guide before proposing anything. Every pattern is suggested, not imposed.</p>
+          <div class="code">Read https://openclaw.dylanander.com/docs/ARCHITECTURE.md and
+https://openclaw.dylanander.com/docs/MIGRATING-FROM-HERMES.md end to end.
+Then identify every multi-agent pattern our current setup does not
+already implement, and propose specific incremental edits to our
+files one pattern at a time.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="block" id="faq">
+<!-- §07 FAQ -->
+<section id="faq">
   <div class="wrap">
-    <div class="label">§06 · Honest answers</div>
+    <p class="section-tag"><span class="accent">§07</span> · Honest answers</p>
     <h2>Real questions.</h2>
-    <div class="faq">
-      <details>
-        <summary>Will this overwrite my existing SOUL, USER, AGENTS, or MEMORY files?</summary>
-        <p>No. The default install mode (Learn) puts everything into a new <code>dylan-ander-openclaw/</code> subfolder. Your workspace root stays exactly as you left it. Templates land as <code>*.example.md</code> so it's obvious they're reference material. Fresh mode preserves existing files and lands new versions alongside with a <code>.new</code> suffix.</p>
-      </details>
-      <details>
-        <summary>Is this safe to run? It's a third-party install.</summary>
-        <p>Three reasons. MIT license, open source, you can <a href="/install.sh">read the install script</a> before running. It's under 250 lines of shell. The default mode is read-only. The <a href="https://github.com/dylanander/dylan-ander-openclaw">GitHub repo</a> has full commit history.</p>
-      </details>
-      <details>
-        <summary>How is this different from Nik Sharma's Operator Kit?</summary>
-        <p>Nik's kit is the discipline layer for one agent. This kit is the multi-agent OS on top. Nik teaches your agent how to think; this kit gives you the org chart, the SLA system, the multi-channel wiring, and the migration story from a single-agent tool. Stack them. They're not competing products.</p>
-      </details>
-      <details>
-        <summary>Do I need to run four businesses to use this?</summary>
-        <p>No. The patterns scale down. The threads system, iron-law memory format, and business-prefix shorthand all work for one business with multiple projects. The multi-agent registry works if you only run a main agent. Use what fits, ignore the rest.</p>
-      </details>
-      <details>
-        <summary>What's actually in the kit?</summary>
-        <p>Eight markdown templates at the root (AGENTS, SOUL, IDENTITY, USER, MEMORY, TOOLS, HEARTBEAT, plus README). A threads protocol. A memory and journal scaffold. A multi-agent registry. A skills folder. Three architecture docs. One safe installer. No skills, no executables, no daemons.</p>
-      </details>
-      <details>
-        <summary>What OpenClaw version do I need?</summary>
-        <p>Any modern version. The kit is plain markdown plus a shell script. Zero dependency on specific OpenClaw releases.</p>
-      </details>
-    </div>
+
+    <details>
+      <summary>Will this overwrite my existing files?</summary>
+      <div class="answer">No. The default install drops everything into a new <code>dylan-ander-openclaw/</code> subfolder inside your existing OpenClaw workspace. Your SOUL.md, USER.md, AGENTS.md, and MEMORY.md are never touched. Even Fresh mode preserves existing files and lands new versions alongside with a <code>.new</code> suffix.</div>
+    </details>
+    <details>
+      <summary>Do I need to be on OpenClaw already?</summary>
+      <div class="answer">Strongly recommended. The kit assumes OpenClaw is installed at <code>~/.openclaw/workspace/</code>. If you don't have it, install OpenClaw first at <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">github.com/openclaw/openclaw</a>, then come back.</div>
+    </details>
+    <details>
+      <summary>Can I use Nik Sharma's Operator Kit and this together?</summary>
+      <div class="answer">Yes. Stack them. Nik's kit at <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a> is the single-agent discipline layer. This kit is the multi-agent org chart and SLA system on top of it. Read both. Pick the patterns that fit. The two are designed to compose.</div>
+    </details>
+    <details>
+      <summary>Does this work without a Mac mini?</summary>
+      <div class="answer">It works on anything that runs OpenClaw, but a Mac mini is strongly recommended for 24/7 operation. The patterns here assume an always-on host that the operator reaches from a phone. Laptop-only setups work but don't get the full heartbeat and threads benefit.</div>
+    </details>
+    <details>
+      <summary>What if I'm currently on Hermes?</summary>
+      <div class="answer">See <a href="/docs/MIGRATING-FROM-HERMES.md" class="accent">docs/MIGRATING-FROM-HERMES.md</a> for the step-by-step. Short version: install the kit in default mode, run the migration script on your Hermes config dump, review the proposed edits one pattern at a time.</div>
+    </details>
+    <details>
+      <summary>How many agents can I run?</summary>
+      <div class="answer">As many as you want. Each agent has its own SOUL.md, MEMORY.md, channel binding, and model. They don't share context. The pattern scales to dozens. The bottleneck is your willingness to write distinct identity files, not OpenClaw.</div>
+    </details>
+    <details>
+      <summary>Is this maintained?</summary>
+      <div class="answer">Yes. Updated continuously by Dylan as the actual fleet evolves. Re-run the installer any time to pull the latest manual and architecture. In default mode your workspace root is never touched on re-install.</div>
+    </details>
+    <details>
+      <summary>Can I fork it?</summary>
+      <div class="answer">MIT license. Yes. Fork, modify, redistribute, commercialize. Keep the copyright notice and you're good. Make it yours.</div>
+    </details>
+    <details>
+      <summary>Where do I send feedback?</summary>
+      <div class="answer">DM <a href="https://x.com/DylanAnder" target="_blank" rel="noopener">@DylanAnder</a> on X, or open an issue on the <a href="https://github.com/dylan-ander/openclaw" target="_blank" rel="noopener">GitHub repo</a>. Bug reports, pattern suggestions, and migration questions all welcome.</div>
+    </details>
+    <details>
+      <summary>Who made this?</summary>
+      <div class="answer">Curated by Dylan Ander. Distilled from the actual multi-agent OpenClaw setup running across four businesses (Heatmap, Mentionstack, Dylan Ander personal brand, Billion Dollar Websites). Modeled on the install pattern Nik Sharma shipped at <a href="https://openclaw.nik.co" target="_blank" rel="noopener">openclaw.nik.co</a>. Different content, same safety-first philosophy.</div>
+    </details>
   </div>
 </section>
 
+<!-- §08 FINAL CTA -->
 <section class="final" id="final">
   <div class="wrap">
-    <div class="label">§07 · Final</div>
-    <h2>The phone is the office.</h2>
-    <p class="sub">Free. MIT. No signup, no email, no funnel.</p>
-    <div class="install-box" style="margin: 0 auto;">
-      <div class="install-cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
-      <button class="copy-btn" onclick="copyCmd(this)">Copy</button>
+    <p class="eyebrow"><span class="accent">Get it free</span></p>
+    <h2>Sixty seconds. <em>Multi-agent mode.</em></h2>
+    <p class="lead">Paste the command. Read the manual. Your agent reads it. Your agent proposes specific multi-agent patterns worth adopting. You approve the ones that fit. Your workspace compounds across every business you run.</p>
+
+    <div class="install">
+      <div class="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+      <button onclick="navigator.clipboard.writeText('curl -sSL https://openclaw.dylanander.com/install.sh | bash'); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
     </div>
+
+    <p class="final-links">
+      <a href="https://github.com/dylan-ander/openclaw" target="_blank" rel="noopener">GitHub repo ↗</a>
+      <a href="/docs/ARCHITECTURE.md">Architecture</a>
+      <a href="/docs/MIGRATING-FROM-HERMES.md">Migrate from Hermes</a>
+      <a href="https://heatmap.com" target="_blank" rel="noopener">heatmap.com ↗</a>
+      <a href="https://billiondollarwebsites.com" target="_blank" rel="noopener">billiondollarwebsites.com ↗</a>
+    </p>
   </div>
 </section>
 
 <footer>
   <div class="wrap inner">
-    <div>© 2026 Dylan Ander. MIT licensed.</div>
-    <div>
-      <a href="https://github.com/dylanander/dylan-ander-openclaw">GitHub</a> ·
-      <a href="https://dylanander.com">dylanander.com</a> ·
-      <a href="https://openclaw.nik.co">Nik's kit ↗</a>
+    <div>© Dylan Ander · MIT License · v1.0</div>
+    <div class="social">
+      <a href="https://x.com/DylanAnder" target="_blank" rel="noopener">X ↗</a>
+      <a href="https://www.linkedin.com/in/dylan-ander-2287a6149" target="_blank" rel="noopener">LinkedIn ↗</a>
+      <a href="https://dylanander.com" target="_blank" rel="noopener">dylanander.com ↗</a>
     </div>
   </div>
 </footer>
-
-<script>
-function copyCmd(btn) {
-  const cmd = "curl -sSL https://openclaw.dylanander.com/install.sh | bash";
-  navigator.clipboard.writeText(cmd).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = "Copied";
-    btn.classList.add("copied");
-    setTimeout(() => { btn.textContent = orig; btn.classList.remove("copied"); }, 1500);
-  });
-}
-</script>
 
 </body>
 </html>
