@@ -31,19 +31,22 @@ Closing is the win. Most threads die at P1 or P2.
 
 ### Business prefixes
 
-Each operator picks their own. Examples below; replace with yours.
+This is the most important piece to customize. Pick a 2-4 letter code per project you run, then use it religiously. The agent will think in these prefixes once you do. Examples below are illustrative only; replace with your own.
 
-- **MS** = main agency / services arm
-- **DA** = personal brand
-- **JB** = ecom side project
-- **HM** = portfolio company / SaaS
-- **LTM** = personal creative project (book, music, etc.)
-- **TECH** = cross-cutting infra / tooling
-- **RV** = investment / VC activity
-- **PERSONAL** = home, health, family logistics
-- **OC** = OpenClaw / agent infrastructure itself
+- **<CO1>** = your main company or services arm (e.g. an agency, a SaaS, a product)
+- **<CO2>** = a second business line, side venture, or hobby
+- **<BRAND>** = your personal brand / newsletter / publishing line
+- **<BOOK>** = a long-running creative project (book, album, film, course)
+- **<TECH>** = cross-cutting infrastructure / tooling work
+- **<INV>** = investment / advising / angel activity
+- **<PERSONAL>** = home, health, family, anything non-work
+- **<OC>** = OpenClaw / agent infrastructure itself
 
-### Client prefixes (under MS)
+Keep the list short. If you have more than 8 prefixes you're either over-engineering or you've got too much going on for any one human and you need a Dylan-shaped problem.
+
+### Client prefixes (under your main work prefix)
+
+If you run a services business, each major client gets its own sub-prefix:
 
 - **<CLIENT_A>** ($XK). <one-line context>
 - **<CLIENT_B>** ($XK). <one-line context>
@@ -54,35 +57,35 @@ Each operator picks their own. Examples below; replace with yours.
 
 > Live items here. Real format:
 
-- **MS:** Renewal deck for <client> (4h) (added 2026-01-12)
-- **TECH:** Wire credentials health-check cron (2h) (added 2026-01-13)
-- **PERSONAL:** RSVP to <event> by Friday (15m) (added 2026-01-15)
+- **<CO1>:** Renewal deck for <client> (4h) (added 2026-01-12)
+- **<TECH>:** Wire credentials health-check cron (2h) (added 2026-01-13)
+- **<PERSONAL>:** RSVP to <event> by Friday (15m) (added 2026-01-15)
 
 ## P0: DELEGATED (team)
 
-- **MS:** <team member>: onboarding doc for <new client> (delegated 2026-01-12, tracked on Monday)
+- **<CO1>:** <team member>: onboarding doc for <new client> (delegated 2026-01-12, tracked on Monday)
 
 ## P1: this week's primary work
 
-- **MS:** Onboarding playbook v1: pre-kickoff email + form, kickoff agenda, week-1 sprint, day-30 milestone
-- **MS:** <Client> retention review: pull GA4, identify top 3 expansion angles
-- **TECH:** Build credentials health-check cron: weekly test of all wired API tokens, alert before expiry
-- **OC:** Marketing skills library: CRO.md, SEO.md, GEO.md, PaidAds.md, Email.md, Reddit.md
-- **PERSONAL:** Taxes + QuickBooks: late filing reconciliation
+- **<CO1>:** Onboarding playbook v1: pre-kickoff email + form, kickoff agenda, week-1 sprint, day-30 milestone
+- **<CO1>:** <Client> retention review: pull GA4, identify top 3 expansion angles
+- **<TECH>:** Build credentials health-check cron: weekly test of all wired API tokens, alert before expiry
+- **<OC>:** Marketing skills library: CRO.md, SEO.md, GEO.md, PaidAds.md, Email.md, Reddit.md
+- **<PERSONAL>:** Taxes + QuickBooks: late filing reconciliation
 - **<BRAND>:** Newsletter cadence: lock to weekly Tuesday 10am ET send
 
 ## P2: this month
 
-- **TECH:** Mac Studio for self-hosted LLM/agent infra (research + buy)
-- **MS:** Productize the audit deliverable: standard report template + Looker / GA4 dashboard
-- **OC:** Per-channel agents: spawn a Slack-only specialist for ops triage
-- **DA:** Newsletter relaunch: paid tier ($X/mo or $Y/yr), founding-member rate for first 500
+- **<TECH>:** Mac Studio for self-hosted LLM/agent infra (research + buy)
+- **<CO1>:** Productize the audit deliverable: standard report template + Looker / GA4 dashboard
+- **<OC>:** Per-channel agents: spawn a Slack-only specialist for ops triage
+- **<BRAND>:** Newsletter relaunch: paid tier ($X/mo or $Y/yr), founding-member rate for first 500
 
 ## P3: future thought
 
-- **LTM:** Book outline draft (long horizon)
-- **MS:** White-label of the audit tool for partner agencies
-- **TECH:** Multi-region deploy of the OpenClaw API
+- **<BOOK>:** Outline draft (long horizon)
+- **<CO1>:** White-label of the audit tool for partner agencies
+- **<TECH>:** Multi-region deploy of the OpenClaw API
 
 ---
 
@@ -95,5 +98,5 @@ Each operator picks their own. Examples below; replace with yours.
 
 ## Recently Closed (rolling 7 days, archived weekly to `memory/closed-threads.md`)
 
-- 2026-01-10: **MS:** sent renewal deck to <client>
-- 2026-01-11: **TECH:** re-authed `<account>` for gog CLI
+- 2026-01-10: **<CO1>:** sent renewal deck to <client>
+- 2026-01-11: **<TECH>:** re-authed `<account>` for gog CLI

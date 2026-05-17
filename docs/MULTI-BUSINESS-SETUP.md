@@ -116,9 +116,9 @@ The format makes the business visible at a glance:
 ```
 ## P0: MINE (drop everything)
 
-- **MS:** Renewal deck for <client> (4h) (added 2026-01-12)
-- **JB:** Inventory PO needs sign-off by Friday (15m) (added 2026-01-14)
-- **HM:** Board prep doc for Tuesday (3h) (added 2026-01-14)
+- **<CO1>:** Renewal deck for <client> (4h) (added 2026-01-12)
+- **<CO2>:** Inventory PO needs sign-off by Friday (15m) (added 2026-01-14)
+- **<CO3>:** Board prep doc for Tuesday (3h) (added 2026-01-14)
 ```
 
 The principal scans by prefix; the agent reasons by priority.

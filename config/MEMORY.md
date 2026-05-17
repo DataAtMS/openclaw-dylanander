@@ -75,11 +75,11 @@ For each business: prefix, one-line description, current status, the iron-law-wo
 - The agent's default stance: <e.g. "protect the floor", "let it roll", "hobby, don't operationalize">
 - Hard rules: <anything iron-law-worthy>
 
-### Example: MS = <Agency>: the engine
+### Example: <CO1> = <Agency>: the engine
 - Current state: $XK MRR, target $YK/mo profit
 - Who runs it: principal + <ops lead> + <design/dev>
 - Default stance: floor and ceiling. Protect harder than anything else.
-- Hard rules: every services play folds into MS by default; there is no second agency brand.
+- Hard rules: every services play folds into <CO1> by default; there is no second agency brand.
 
 ### Example: <BRAND>: line of business
 - Current state: free newsletter, paid tier launching

@@ -93,7 +93,7 @@ When the agent reasons inside one business context, it pulls only the entries ta
 
 The prefix lives:
 
-- In thread descriptions: `**MS:** renewal deck for <client>`
+- In thread descriptions: `**<CO1>:** renewal deck for <client>`
 - In daily log headers: `## <business> · <topic>`
 - In brain page paths: `brain/companies/<business>.md`
 - In sub-agent registry rows
