@@ -114,7 +114,8 @@
   /* day-zero step list */
   .day-zero-steps { margin-top: 36px; border-top: 1px solid var(--line); }
   .dz-step { padding: 32px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 96px 1fr; gap: 24px; align-items: start; }
-  .dz-step .dz-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 4px 0 0; font-weight: 500; }
+  .dz-step .dz-num { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; margin: 4px 0 0; font-weight: 500; grid-column: 1; }
+  .dz-step .dz-body { grid-column: 2; min-width: 0; }
   .dz-step h3 { font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 12px; }
   .dz-step p { font-size: 16px; line-height: 1.6; color: var(--mute); margin: 0 0 16px; max-width: 64ch; }
   .dz-step p:last-child { margin-bottom: 0; }
@@ -392,44 +393,54 @@
     <div class="day-zero-steps">
       <div class="dz-step">
         <p class="dz-num">01</p>
-        <h3>Open every AI you actually use.</h3>
-        <p>Claude. Gemini. ChatGPT. Perplexity. Grok. Wherever you've talked to an AI for hours. Each of these tools already holds years of context on how you work, what you build, what you sound like.</p>
+        <div class="dz-body">
+          <h3>Open every AI you actually use.</h3>
+          <p>Claude. Gemini. ChatGPT. Perplexity. Grok. Wherever you've talked to an AI for hours. Each of these tools already holds years of context on how you work, what you build, what you sound like.</p>
+        </div>
       </div>
 
       <div class="dz-step">
         <p class="dz-num">02</p>
-        <h3>Send each of them the same prompt.</h3>
-        <p>Copy this verbatim into Claude. Then Gemini. Then ChatGPT. Then anything else.</p>
-        <div class="install">
-          <div class="cmd" id="dz-prompt">I am setting up a new OpenClaw instance. Export everything you know about me from our chat history that would help an autonomous agent operate on my behalf. Format as plain markdown. Include preferences, ongoing projects, communication style, important people, decisions, ways of working, anything I have shared that an agent would benefit from knowing on day one. Be thorough. Do not summarize. Give me the raw context dump in copy-pasteable markdown. Then point me to the official OpenClaw install guides.</div>
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-prompt').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        <div class="dz-body">
+          <h3>Send each of them the same prompt.</h3>
+          <p>Copy this verbatim into Claude. Then Gemini. Then ChatGPT. Then anything else.</p>
+          <div class="install">
+            <div class="cmd" id="dz-prompt">I am setting up a new OpenClaw instance. Export everything you know about me from our chat history that would help an autonomous agent operate on my behalf. Format as plain markdown. Include preferences, ongoing projects, communication style, important people, decisions, ways of working, anything I have shared that an agent would benefit from knowing on day one. Be thorough. Do not summarize. Give me the raw context dump in copy-pasteable markdown. Then point me to the official OpenClaw install guides.</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-prompt').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
         </div>
       </div>
 
       <div class="dz-step">
         <p class="dz-num">03</p>
-        <h3>Save each export as its own file.</h3>
-        <p>Inside your OpenClaw workspace, create an <code>imports/</code> folder and drop the markdown exports as <code>imports/claude.md</code>, <code>imports/gemini.md</code>, <code>imports/chatgpt.md</code>, one per AI. Raw, untouched. The agent does the rest.</p>
+        <div class="dz-body">
+          <h3>Save each export as its own file.</h3>
+          <p>Inside your OpenClaw workspace, create an <code>imports/</code> folder and drop the markdown exports as <code>imports/claude.md</code>, <code>imports/gemini.md</code>, <code>imports/chatgpt.md</code>, one per AI. Raw, untouched. The agent does the rest.</p>
+        </div>
       </div>
 
       <div class="dz-step">
         <p class="dz-num">04</p>
-        <h3>Install the kit.</h3>
-        <div class="install">
-          <div class="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
-          <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -sSL https://openclaw.dylanander.com/install.sh | bash'); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        <div class="dz-body">
+          <h3>Install the kit.</h3>
+          <div class="install">
+            <div class="cmd"><span class="dim">$</span> curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('curl -sSL https://openclaw.dylanander.com/install.sh | bash'); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
+          <p>The kit drops the architecture, the iron-law format, the threads protocol, the multi-agent registry, the wired-tools catalog. The shape of your brain is now in place.</p>
         </div>
-        <p>The kit drops the architecture, the iron-law format, the threads protocol, the multi-agent registry, the wired-tools catalog. The shape of your brain is now in place.</p>
       </div>
 
       <div class="dz-step">
         <p class="dz-num">05</p>
-        <h3>First message to the agent.</h3>
-        <div class="install">
-          <div class="cmd" id="dz-firstmsg">Read everything in /imports. Do not change the kit's architecture. Use what's useful from those exports to fill in MEMORY.md, USER.md, IDENTITY.md, and the relevant TOOLS.md sections. Tell me what you learned, what's worth promoting to long-term memory, and what you ignored.</div>
-          <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-firstmsg').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+        <div class="dz-body">
+          <h3>First message to the agent.</h3>
+          <div class="install">
+            <div class="cmd" id="dz-firstmsg">Read everything in /imports. Do not change the kit's architecture. Use what's useful from those exports to fill in MEMORY.md, USER.md, IDENTITY.md, and the relevant TOOLS.md sections. Tell me what you learned, what's worth promoting to long-term memory, and what you ignored.</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('dz-firstmsg').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
+          <p>Now your agent walks into day one with context, voice, and stakes. Not a blank file and a confused first session.</p>
         </div>
-        <p>Now your agent walks into day one with context, voice, and stakes. Not a blank file and a confused first session.</p>
       </div>
     </div>
 
