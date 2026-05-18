@@ -300,6 +300,10 @@
   .mode h4 { font-size: 22px; font-weight: 600; margin: 0 0 12px; letter-spacing: -0.01em; }
   .mode p { font-size: 15px; color: var(--mute); margin: 0 0 18px; line-height: 1.6; max-width: 600px; }
   .mode .code { font-family: var(--mono); font-size: 13px; background: var(--paper-2); border: 1px solid var(--line-strong); border-radius: 3px; padding: 14px 16px; overflow-x: auto; white-space: pre; max-width: 100%; min-width: 0; }
+  .mode .code-block { position: relative; max-width: 100%; }
+  .mode .code-block .code { padding-right: 76px; }
+  .mode .code-block .copy-btn { position: absolute; top: 8px; right: 8px; background: var(--accent); color: #fff; border: 0; padding: 6px 12px; border-radius: 3px; font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: background 0.15s ease; }
+  .mode .code-block .copy-btn:hover { background: var(--accent-strong); }
   /* mobile fix 2026-05-17: install mode code blocks keep horizontal scroll, never overflow viewport */
   @media (max-width: 760px) { .mode { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; } .mode .code { font-size: 11px; padding: 12px 14px; } .mode h4 { font-size: 19px; } }
 
@@ -388,7 +392,7 @@
   <div class="wrap">
     <p class="section-tag"><span class="accent">§01</span> · Day zero, done right</p>
     <h2>Fill the files before you start.</h2>
-    <p class="lead">Most people install a kit, hit a blank MEMORY.md and TOOLS.md, and quit by day three. The fix is simple. Feed your agent your context before the first session, not during it. The trick I used: I asked every AI I already use to hand me back everything they know about me.</p>
+    <p class="lead">Most people install a kit, hit a blank MEMORY.md and TOOLS.md, and quit by day three. The fix is simple. Feed your agent your context before the first session, not during it. The trick I used: I asked every AI I already use to hand me back everything they know about me. Credit where it's due: <a href="https://nik.co/email" target="_blank" rel="noopener" class="accent">Nik Sharma</a> handed me the architecture I started from. This kit is the next layer up.</p>
 
     <div class="day-zero-steps">
       <div class="dz-step">
@@ -673,14 +677,13 @@
   <div class="wrap">
     <p class="section-tag"><span class="accent">§02.75</span> · The comparison</p>
     <h2>Stacked up.</h2>
-    <p class="lead">Hermes ships fast. Vanilla OpenClaw is the runtime. This kit is for the person juggling more than one thing through agents at once. Three products. One honest matrix.</p>
+    <p class="lead">Vanilla OpenClaw is a great runtime. This kit is what it looks like when one person juggling multiple businesses puts a year of patterns on top of it. Two columns. One honest matrix.</p>
 
     <div class="compare-wrap">
-      <table class="compare-table" role="table" aria-label="Three-product capability comparison">
+      <table class="compare-table" role="table" aria-label="Two-product capability comparison">
         <thead>
           <tr>
             <th class="cap" scope="col">Capability</th>
-            <th scope="col">Hermes<br><span style="font-weight:400;color:var(--mute);text-transform:none;letter-spacing:0;font-size:10px;">Nous Research</span></th>
             <th scope="col">Vanilla<br>OpenClaw</th>
             <th class="mine" scope="col">Dylan's<br>OpenClaw</th>
           </tr>
@@ -689,108 +692,85 @@
           <tr>
             <td class="cap">Multi-channel (Telegram, Slack, Discord, Email, CLI)</td>
             <td><span class="check">&#x2713;</span></td>
-            <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Persistent memory</td>
-            <td><span class="check">&#x2713;</span></td>
             <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Subagents</td>
             <td><span class="check">&#x2713;</span></td>
-            <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Sandboxed code execution</td>
-            <td><span class="check">&#x2713;</span></td>
             <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">MIT license</td>
             <td><span class="check">&#x2713;</span></td>
-            <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Workspace as source of truth (file-based, grep-able)</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Iron laws as durable contracts (survive context resets)</td>
             <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Cache-boundary memory architecture</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="partial">partial</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Threads protocol with P0/P1/P2/P3 + SLA enforcement</td>
             <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Identity-level multi-agent (separate SOUL + MEMORY per agent)</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="partial">partial</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Model-per-agent assignment</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="check">&#x2713;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Hybrid task system (workspace + Monday.com mirror)</td>
             <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Sanitized templates for multi-business setup</td>
             <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Human-authored skills (read-only, forkable)</td>
-            <td><span class="partial">auto-generated</span></td>
             <td><span class="partial">template</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
-            <td class="cap">Migration guide from Hermes</td>
-            <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
-            <td class="mine"><span class="check">&#x2713;</span></td>
-          </tr>
-          <tr>
             <td class="cap">Hardware-as-product story (Mac mini + Cloudflare tunnel)</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="partial">partial</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Phone-first output formats</td>
             <td><span class="none">&ndash;</span></td>
-            <td><span class="none">&ndash;</span></td>
             <td class="mine"><span class="check">&#x2713;</span></td>
           </tr>
           <tr>
             <td class="cap">Built by a multi-business founder with real workflow</td>
-            <td><span class="none">&ndash;</span></td>
             <td><span class="partial">n/a</span></td>
             <td class="mine"><span class="partial" style="color:var(--accent);">4 projects</span></td>
           </tr>
@@ -799,27 +779,26 @@
 
       <!-- mobile card-per-row fallback -->
       <div class="compare-cards" aria-hidden="false">
-        <div class="compare-card"><p class="cap">Multi-channel (Telegram, Slack, Discord, Email, CLI)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card"><p class="cap">Persistent memory</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card"><p class="cap">Subagents</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card"><p class="cap">Sandboxed code execution</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card"><p class="cap">MIT license</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Workspace as source of truth (file-based, grep-able)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Iron laws as durable contracts (survive context resets)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Cache-boundary memory architecture</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Threads protocol with P0/P1/P2/P3 + SLA enforcement</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Identity-level multi-agent (separate SOUL + MEMORY per agent)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Model-per-agent assignment</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Hybrid task system (workspace + Monday.com mirror)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Sanitized templates for multi-business setup</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card"><p class="cap">Human-authored skills (read-only, forkable)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="partial">auto-generated</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">template</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Migration guide from Hermes</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Hardware-as-product story (Mac mini + Cloudflare tunnel)</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Phone-first output formats</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
-        <div class="compare-card mine-card"><p class="cap">Built by a multi-business founder with real workflow</p><div class="grid"><span class="lbl">Hermes</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">n/a</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="partial" style="color:var(--accent);">4 projects</span></span></div></div>
+        <div class="compare-card"><p class="cap">Multi-channel (Telegram, Slack, Discord, Email, CLI)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Persistent memory</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Subagents</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Sandboxed code execution</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">MIT license</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Workspace as source of truth (file-based, grep-able)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Iron laws as durable contracts (survive context resets)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Cache-boundary memory architecture</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Threads protocol with P0/P1/P2/P3 + SLA enforcement</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Identity-level multi-agent (separate SOUL + MEMORY per agent)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Model-per-agent assignment</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Hybrid task system (workspace + Monday.com mirror)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Sanitized templates for multi-business setup</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card"><p class="cap">Human-authored skills (read-only, forkable)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">template</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Hardware-as-product story (Mac mini + Cloudflare tunnel)</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">partial</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Phone-first output formats</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="none">&ndash;</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="check">&#x2713;</span></span></div></div>
+        <div class="compare-card mine-card"><p class="cap">Built by a multi-business founder with real workflow</p><div class="grid"><span class="lbl">Vanilla OpenClaw</span><span class="val"><span class="partial">n/a</span></span><span class="lbl mine">Dylan's OpenClaw</span><span class="val"><span class="partial" style="color:var(--accent);">4 projects</span></span></div></div>
       </div>
 
-      <p class="compare-foot"><em>Hermes is a great product. Nous Research ships serious engineering. The structural differences above are about the architectural bet: emergent agent that grows with you versus declared multi-agent OS that compounds because you wrote down what it should never do.</em></p>
+      <p class="compare-foot"><em>Vanilla OpenClaw is the runtime. This is the layer on top: written-down patterns that compound because you declared what your agents should never do, not what they should hopefully figure out.</em></p>
     </div>
   </div>
 </section>
@@ -966,7 +945,10 @@
         <div>
           <h4>Read-only. Safe for any existing workspace.</h4>
           <p>Downloads the multi-agent architecture, manual, and reference templates into <code>dylan-ander-openclaw/</code>. Your workspace root is never modified. Your agent reads the kit, compares it against your current setup, and suggests incremental patterns to adopt.</p>
-          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+          <div class="code-block">
+            <div class="code" id="mode-learn">curl -sSL https://openclaw.dylanander.com/install.sh | bash</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('mode-learn').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
         </div>
       </div>
       <div class="mode">
@@ -974,7 +956,10 @@
         <div>
           <h4>Default mode plus optional scaffolding.</h4>
           <p>Same as default, plus creates empty optional directories: <code>memory/archive/</code>, <code>journal/</code>, <code>threads/</code>, <code>brain/</code>. Still zero edits to your workspace root.</p>
-          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode additive</div>
+          <div class="code-block">
+            <div class="code" id="mode-additive">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode additive</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('mode-additive').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
         </div>
       </div>
       <div class="mode">
@@ -982,7 +967,10 @@
         <div>
           <h4>Brand-new workspace only.</h4>
           <p>Writes full templates to the workspace root. If you already have SOUL.md or MEMORY.md, they're preserved and new versions land alongside with a <code>.new</code> suffix for manual diff. Only recommended for genuinely fresh setups.</p>
-          <div class="code">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode fresh</div>
+          <div class="code-block">
+            <div class="code" id="mode-fresh">curl -sSL https://openclaw.dylanander.com/install.sh | bash -s -- --mode fresh</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('mode-fresh').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
         </div>
       </div>
       <div class="mode">
@@ -990,11 +978,14 @@
         <div>
           <h4>Skip the terminal entirely.</h4>
           <p>Paste this in any OpenClaw chat. The agent reads the architecture and the migration guide before proposing anything. Every pattern is suggested, not imposed.</p>
-          <div class="code">Read https://openclaw.dylanander.com/docs/ARCHITECTURE.md and
+          <div class="code-block">
+            <div class="code" id="mode-agent">Read https://openclaw.dylanander.com/docs/ARCHITECTURE.md and
 https://openclaw.dylanander.com/docs/MIGRATING-FROM-HERMES.md end to end.
 Then identify every multi-agent pattern our current setup does not
 already implement, and propose specific incremental edits to our
 files one pattern at a time.</div>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('mode-agent').innerText); this.innerText='Copied'; setTimeout(()=>this.innerText='Copy', 1500)">Copy</button>
+          </div>
         </div>
       </div>
     </div>
